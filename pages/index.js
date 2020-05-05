@@ -11,10 +11,7 @@ export function Main({listen}) {
   const router = useRouter()
   const [pageUrl, setPageUrl] = useState()
 
-  const [image, setImage] = useState()
-
   useEffect(() => {
-    onLoad()
     Router.events.on('routerChangeComplete', (url) => {
       console.log('url', url)
     })
@@ -24,24 +21,12 @@ export function Main({listen}) {
     console.log('slug', slug)
   }
 
-  async function onLoad() {
-    const data = await fetch('/api/testing', {
-      method: 'post',
-      body: JSON.stringify('testing')
-    })
-      .then(response => response.json())
-
-    setImage(data.images[0].url)
-  }
-
   return (
     <MediaWrapper setPageUrl={url => setPageUrl(url)}>
       <Head><title>musci_pl</title></Head>
       {!pageUrl && (
         <HomePage changeRoute={link => changeRoute(link)} />
       )}
-      <img src={image} />
-
     </MediaWrapper>
   )
 }

@@ -2,12 +2,14 @@ import {useContext, useEffect, useState} from 'react'
 
 import fetch from 'isomorphic-unfetch'
 
-import {Context as SongContext} from '~/store/song'
-
 import PageWrapper from '~/components/layout/pageWrapper'
 import SearchCard from '~/components/layout/searchCard'
 
+import {Context as SongContext} from '~/store/song'
+
 import styles from './styles.scss'
+
+const playlists = [2018, 2019]
 
 export function HomePage({changeRoute}) {
   const {searchList} = useContext(SongContext)
@@ -18,7 +20,17 @@ export function HomePage({changeRoute}) {
   }, [])
 
   async function onLoad() {
-    
+    setPlaylist(await Promise.all(playlists.map(item => 
+      new Promise(async(res, rej) => {
+        const headers = {'Content-Type': 'application/json'}
+        const response = await fetch('/api/getSongData', {
+          method: 'POST', 
+          body: JSON.stringify({item}),
+          headers
+        })
+        res(await response.json())
+      })
+    )))
   }
   
   return (
