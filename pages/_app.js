@@ -4,7 +4,8 @@ import App, { Container } from 'next/app'
 import { Store as SongStore } from '~/store/song'
 
 import './global.scss'
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.less'
+import 'antd/lib/style/themes/default.less'
 
 class Base extends App {
   render () {

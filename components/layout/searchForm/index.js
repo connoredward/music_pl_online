@@ -8,40 +8,32 @@ import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
 
-function SearchFormRaw({searchMusic}) {
-  const onFinish = values => {
-    if(values && values.search) searchMusic(values.Search)
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
+function SearchFormRaw ({ form, searchMusic }) {
+  const { getFieldDecorator } = form
+  function handleSubmit() {
+    return e => {
+      e.preventDefault()
+      form.validateFields((err, values) => {
+        console.log(values)
+        // if (!err) searchMusic(values.Search)
+      })
+    }
+  }
   return (
-    <Form
-      name='spotify-search'
-      className={styles['search_form']}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        name='search'
-        rules={[{ required: false}]}
-      >
-        <Input />
-      </Form.Item>
-
+    <Form onSubmit={handleSubmit()} className={styles['search_form']}>
       <Form.Item>
-        <Button type='primary' htmlType='submit'>
-          <MdSearch />
-        </Button>
+        {getFieldDecorator('Search', {
+          rules: [{ required: false, message: 'Please input something' }],
+        })(<Input placeholder='Search...' />)}
       </Form.Item>
+      <Button type="primary" htmlType="submit"><MdSearch /></Button>
     </Form>
   )
 }
 
+const SearchForm = Form.create({ name: 'search-spotify' })(SearchFormRaw)
 
-export function SearchFormWrapper({setPage}) {
+export function SearchFormWrapper({setPageUrl}) {
   const {addSearchList} = useContext(SongContext)
 
   function getUnique(arr, comp) {
@@ -51,14 +43,14 @@ export function SearchFormWrapper({setPage}) {
   }
 
   async function searchMusic(search) {
-    // setPage('')
+    // setPageUrl('')
     
   }
 
   return (
     <div className={styles['search_wrapper']}>
-      <span onClick={() => setPage('')}>msuci_pl</span>
-      <SearchFormRaw searchMusic={search => searchMusic(search)} />
+      <span onClick={() => setPageUrl('')}>msuci_pl</span>
+      <SearchForm searchMusic={search => searchMusic(search)} />
     </div>
   )
 }

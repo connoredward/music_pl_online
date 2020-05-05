@@ -1,0 +1,102 @@
+.player_bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  min-width: 100vw;
+  height: 70px;
+  background: rgba(46, 46, 46, 1);
+  border-top: 1px solid black;
+  display: flex;
+  align-items: center;
+  color: white;
+  .controller_button_wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    min-width: 320px;
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    height: 100%;
+    .current_song {
+      width: 250px;
+      >div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        .art-cover {
+          background-repeat: no-repeat !important;
+          background-size: cover !important;
+          background-position: center !important;
+          min-width: 50px;
+          height: 50px;
+          margin: 0 10px;
+        }
+        .song_information {
+          p {
+            font-weight: 500;
+          }
+          p {
+            margin: 0;
+            font-weight: 400;
+            font-size: 12px;
+            width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .artist_name {
+            color: rgba(255,255,255,.6)
+          }
+        }
+      }
+    }
+
+    .controller_wrapper {
+      width: 60%;
+      margin: 0 auto;
+      padding: 0;
+      .controller_buttons {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        >svg {
+          // width: 25px;
+          font-size: 20px;
+          height: auto;
+          margin: 0 10px;
+          &:nth-child(2) {
+            font-size: 30px;
+          }
+        }
+      }
+      .song_timeline {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .song_slider {
+          width: 70%;
+          min-width: 300;
+          margin: 5px 20px !important;
+        }
+      }
+    }
+
+    .other_controls {
+      min-width: 250px;
+      // display: flex;
+      align-items: center;
+      display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 0 40px;
+    }
+  }
+
+  svg {
+    font-size: 20px;
+    &:hover {
+      color: rgba(0,0,0,.5);
+      cursor: pointer;
+    }
+  }
+}

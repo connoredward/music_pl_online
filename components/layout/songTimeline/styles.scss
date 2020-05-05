@@ -1,0 +1,10 @@
+.song_timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .song_slider {
+    width: 70%;
+    min-width: 300;
+    margin: 5px 20px !important;
+  }
+}
