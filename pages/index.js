@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+
 import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
-
 import fetch from 'isomorphic-unfetch'
+
+import PageWrapper from '~/components/layout/pageWrapper'
 
 export function Main({listen}) {
   const router = useRouter()
@@ -32,9 +34,9 @@ export function Main({listen}) {
   }
 
   return (
-    <div>
+    <PageWrapper setPageUrl={url => setPageUrl(url)}>
       <img src={image} />
-    </div>
+    </PageWrapper>
   )
 }
 
