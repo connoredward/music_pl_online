@@ -24,7 +24,6 @@ async function callRoute({route, item}) {
 }
 
 export function MusicPage({slug}) {
-  console.log('slug', slug)
   const {
     setSong,
     addSongList,
@@ -43,13 +42,12 @@ export function MusicPage({slug}) {
   }, [slug])
 
   async function onLoad() {
-    console.log(1)
     const songData = await callRoute({route: slug.length === 4 || typeof slug === 'number' ? '/api/getSongData' : '/api/getAlbumData', item: slug})
-    console.log('songData', songData)
     addPageSongList(songData)
     if (songList.length === 0) addSongList(songData)
     
     if (slug.length > 6) getAlbumInfo(songData.href.split('/')[5])
+    else setAlbumInfo({artist: songData.owner.display_name, album: songData.name, albumImg: songData.images[0].url})
   }
 
   async function getAlbumInfo(albumId) {

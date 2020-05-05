@@ -1,0 +1,56 @@
+.album_wrapper {
+  display: flex;
+  .album_description {
+    width: 100%;
+    padding: 0 40px 0 0;
+    h1, h2, p {
+      color: white;
+    }
+    h2 {
+      font-family: 'Yeseva-One';
+      font-size: 36px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    h1 {
+      font-weight: 350;
+      margin: 0 0 5px 0;
+      color: rgba(255,255,255,.5);
+    }
+    p, a {
+      font-weight: 350;
+    }
+    .pitchfork_score {
+      border-radius: 100px;
+      border: solid 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+      height: 50px;
+      min-width: 50px;
+      margin: 0 10px;
+      &.black {
+        border-color: white;
+        color: white;
+      }
+      &.red {
+        border-color: red;
+        color: red;
+      }
+    }
+    .pitchfork_content {
+      display: flex;
+      align-items: center;
+    }
+  }
+  .art_cover {
+    min-width: 250px;
+    height: 250px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}

@@ -11,7 +11,7 @@ function MediaCard({song, album, artist, imgPre, onClick}) {
   return (
     <div className={styles['queue_card']}>
       <div className={styles['queue_content']}>
-        <p className={styles['song']}>{song}</p>
+        <p className={styles.song}>{song}</p>
         <p>{artist} - {album}</p>
       </div>
       <div className={styles['art_cover']} style={{ backgroundImage: `url(${imgPre})` }} />
