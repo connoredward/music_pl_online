@@ -11,12 +11,12 @@ import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
 
-async function callRoute({route, val}) {
+async function callRoute({route, item}) {
   return await new Promise(async(res, rej) => {
     const headers = {'Content-Type': 'application/json'}
     const response = await fetch(route, {
       method: 'POST', 
-      body: JSON.stringify({val}),
+      body: JSON.stringify({item}),
       headers
     })
     res(await response.json())
@@ -24,6 +24,7 @@ async function callRoute({route, val}) {
 }
 
 export function MusicPage({slug}) {
+  console.log('slug', slug)
   const {
     setSong,
     addSongList,
@@ -42,7 +43,9 @@ export function MusicPage({slug}) {
   }, [slug])
 
   async function onLoad() {
-    const songData = await callRoute({route: slug.length === 4 || typeof slug === 'number' ? '/api/getSongData' : '/api/getAlbumData', val: slug})
+    console.log(1)
+    const songData = await callRoute({route: slug.length === 4 || typeof slug === 'number' ? '/api/getSongData' : '/api/getAlbumData', item: slug})
+    console.log('songData', songData)
     addPageSongList(songData)
     if (songList.length === 0) addSongList(songData)
     
