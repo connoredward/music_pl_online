@@ -39,3 +39,5 @@ export function MediaCard(props) {
     </div>
   )
 }
+
+export default MediaCard

@@ -34,3 +34,5 @@ export function SearchMedia(props) {
     </div>
   )
 }
+
+export default SearchMedia

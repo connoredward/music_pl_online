@@ -3,7 +3,7 @@ import {useState, useEffect, useContext} from 'react'
 import fetch from 'isomorphic-unfetch'
 import classNames from 'classnames'
 
-import PageWrapper from '~/componeonts/layout/pageWrapper'
+import PageWrapper from '~/components/layout/pageWrapper'
 import MediaCard from '~/components/layout/mediaCard'
 import SearchMedia from '~/components/layout/searchMedia'
 

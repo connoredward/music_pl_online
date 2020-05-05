@@ -37,8 +37,9 @@ export function HomePage({changeRoute}) {
     <PageWrapper className={styles['home_page']}>
       <div className={styles['playlist_wrapper']}>
         <h2 className={styles.title}>My Playlists</h2>
-        {playlist.map(({name, owner, images, id}) => 
+        {playlist.map(({name, owner, images, id}, index) => 
           <SearchCard 
+            key={index}
             album={name} 
             artist={owner.display_name} 
             imgPre={images[1].url} id={id} 
@@ -48,7 +49,7 @@ export function HomePage({changeRoute}) {
       </div>
 
       <div className={styles['search_wrapper']}>
-        {searchList.map((item) => <SearchCard {...item} onClick={vals => changeRoute(vals)} />)}
+        {searchList.map((item, index) => <SearchCard key={index} {...item} onClick={vals => changeRoute(vals)} />)}
       </div>
 
       {/* <h2>Recently added</h2> */}
