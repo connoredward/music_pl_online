@@ -24,8 +24,13 @@ export function Main({listen}) {
     setPageUrl(slug)
   }
 
+  function emptyRoute(url) {
+    router.push('/?', '/', {shallow: true})
+    setPageUrl('')
+  }
+
   return (
-    <MediaWrapper setPageUrl={url => setPageUrl(url)}>
+    <MediaWrapper setPageUrl={() => emptyRoute()}>
       <Head><title>musci_pl</title></Head>
       {!pageUrl && (
         <HomePage changeRoute={link => changeRoute(link)} />

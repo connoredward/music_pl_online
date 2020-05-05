@@ -14,8 +14,7 @@ function SearchFormRaw ({ form, searchMusic }) {
     return e => {
       e.preventDefault()
       form.validateFields((err, values) => {
-        console.log(values)
-        // if (!err) searchMusic(values.Search)
+        if (!err) searchMusic(values.Search)
       })
     }
   }
@@ -43,13 +42,21 @@ export function SearchFormWrapper({setPageUrl}) {
   }
 
   async function searchMusic(search) {
-    // setPageUrl('')
-    
+    setPageUrl()
+    const headers = {'Content-Type': 'application/json'}
+    const response = await fetch('/api/searchSpotify', {
+      method: 'POST',
+      body: JSON.stringify({search}),
+      headers
+    })
+    const body = await response.json()
+    const compareThis = body.tracks.items.map((item) => {return{artist: item.artists[0].name, album: item.album.name, imgPre: item.album.images[1].url, id: item.album.id}})
+    addSearchList(getUnique(compareThis, 'id'))
   }
 
   return (
     <div className={styles['search_wrapper']}>
-      <span onClick={() => setPageUrl('')}>msuci_pl</span>
+      <span onClick={() => setPageUrl()}>msuci_pl</span>
       <SearchForm searchMusic={search => searchMusic(search)} />
     </div>
   )
