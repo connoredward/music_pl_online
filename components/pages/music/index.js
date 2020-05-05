@@ -51,7 +51,7 @@ export function MusicPage({slug}) {
   }
 
   async function getAlbumInfo(albumId) {
-    const songData = await callRoute({route: '/api/getAlbum', val: albumId})
+    const songData = await callRoute({route: '/api/getAlbum', item: albumId})
     if (songData.album_type === 'album') {
       setAlbumInfo({artist: body.artists[0].name, album: body.name, albumImg: body.images[1].url}) 
       getPitchForkData({artist:body.artists[0].name, album: body.name})
@@ -59,7 +59,7 @@ export function MusicPage({slug}) {
   }
 
   async function getPitchForkData(props) {
-    const body = await callRoute({route: '/api/getPitchforkData', val: props})
+    const body = await callRoute({route: '/api/getPitchforkData', item: props})
     setPitchforkReview(body)
   }
 
