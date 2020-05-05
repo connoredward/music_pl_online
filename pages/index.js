@@ -4,7 +4,8 @@ import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
 import fetch from 'isomorphic-unfetch'
 
-import PageWrapper from '~/components/layout/pageWrapper'
+import MediaWrapper from '~/components/modules/mediaWrapper'
+import HomePage from '~/components/pages/home'
 
 export function Main({listen}) {
   const router = useRouter()
@@ -34,9 +35,14 @@ export function Main({listen}) {
   }
 
   return (
-    <PageWrapper setPageUrl={url => setPageUrl(url)}>
+    <MediaWrapper setPageUrl={url => setPageUrl(url)}>
+      <Head><title>musci_pl</title></Head>
+      {!pageUrl && (
+        <HomePage changeRoute={link => changeRoute(link)} />
+      )}
       <img src={image} />
-    </PageWrapper>
+
+    </MediaWrapper>
   )
 }
 

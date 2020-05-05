@@ -1,23 +1,15 @@
-import {useContext} from 'react'
+const styles = {
+  maxWidth: '800px',
+  width: '80vw',
+  minWidth: '320px',
+  margin: '0 auto',
+  padding: '150px 0'
+}
 
-import SearchForm from '~/components/layout/searchForm'
-import PlayerBar from '~/components/layout/playerBar'
-
-import MediaPlayer from '~/components/modules/mediaPlayer'
-
-import {Context as SongContext} from '~/store/song'
-
-import styles from './styles.scss'
-
-export function PageWrapper({children, setPageUrl}) {
-  const {currentSong} = useContext(SongContext)
-
+export function PageWrapper({children, className}) {
   return (
-    <div className={styles.main}>
-      <SearchForm setPageUrl={url => setPageUrl(url)} />
+    <div className={className} style={styles}>
       {children}
-      <MediaPlayer {...currentSong} />
-      <PlayerBar />
     </div>
   )
 }

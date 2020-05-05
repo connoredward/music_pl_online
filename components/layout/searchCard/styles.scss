@@ -1,0 +1,30 @@
+.card_wrapper {
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+  h1, h2 {
+    font-weight: 350;
+    font-size: 18px;
+    margin: 0;
+  }
+  h1 {
+    color: white;
+  }
+  h2 {
+    color: rgba(255,255,255,.5) !important;
+  }
+  &:hover {
+    background: rgba(0,0,0,.8);
+    cursor: pointer;
+  }
+  .album_content {
+    width: 100%;
+  }
+  .art_cover {
+    width: 70px;
+    height: 70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
