@@ -1,0 +1,50 @@
+.card_wrapper {
+  min-width: 200px;
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  button {
+    background: transparent;
+    border: none;
+    padding: 0 30px;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    background: rgba(0,0,0,.8);
+    cursor: pointer;
+  }
+  &.active {
+    background: rgba(0,0,0,.8);
+  }
+
+  .credentials_wrapper {
+    width: 100%;
+    p, span {
+      font-weight: 350;
+    }
+    p {
+      font-size: 18px;
+      margin: 5px 0;
+    }
+    span {
+      font-size: 14px;
+      >span {
+        color: rgba(255,255,255,.5);
+      }
+    }
+  }
+
+  .art_cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-width: 60px;
+    height: 60px;
+  }
+}

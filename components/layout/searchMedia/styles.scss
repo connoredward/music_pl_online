@@ -1,0 +1,25 @@
+.card_wrapper {
+  min-width: 200px;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  &:hover {
+    background: rgba(0,0,0,.8);
+    cursor: pointer;
+  }
+  &.active {
+    background: rgba(0,0,0,.8);
+  }
+  .credentials_wrapper {
+    width: 100%;
+    >p {
+      font-size: 12px;
+      font-weight: 300;
+      margin: 5px 0;
+      >span {
+        color: rgba(255,255,255,.5);
+      }
+    }
+  }
+}
