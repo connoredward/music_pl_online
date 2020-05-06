@@ -53,8 +53,8 @@ export function MusicPage({slug}) {
   async function getAlbumInfo(albumId) {
     const songData = await callRoute({route: '/api/getAlbum', item: albumId})
     if (songData.album_type === 'album') {
-      setAlbumInfo({artist: body.artists[0].name, album: body.name, albumImg: body.images[1].url}) 
-      getPitchForkData({artist:body.artists[0].name, album: body.name})
+      setAlbumInfo({artist: songData.artists[0].name, album: songData.name, albumImg: songData.images[1].url}) 
+      getPitchForkData({artist:songData.artists[0].name, album: songData.name})
     }
   }
 
@@ -76,15 +76,16 @@ export function MusicPage({slug}) {
               {slug.length > 6 && (
                 <>
                   {pitchforkReview[0] 
-                    ? <div className={styles['pitchfork-content']}>
+                    ? <div className={styles['pitchfork_content']}>
                         <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
-                        <div className={classNames(styles['pitchfork-score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}><span>{pitchforkReview[0].score}</span></div>
+                        <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}><span>{pitchforkReview[0].score}</span></div>
                       </div>
                     : <span>Loading...</span>
                   }
                 </>
               )}
             </div>
+            <div className={styles['art_cover']} style={{ backgroundImage: `url(${albumInfo.albumImg})` }} />
           </>
         )}
       </div>
