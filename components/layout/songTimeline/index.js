@@ -1,14 +1,31 @@
-import {useState, useContext} from 'react'
+import {useState, useContext, useEffect} from 'react'
 
-import {Slider, DatePicker} from 'antd'
+import {Slider} from 'antd'
 
 import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
 
 export function SongTimeline() {
-  const {duration, currentTime, changeCurrentTime} = useContext(SongContext)
+  const {duration, mediaEvent} = useContext(SongContext)
+
   const [block, setBlock] = useState(undefined)
+  const [currentTime, setCurrentTime] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (mediaEvent) {
+        setCurrentTime(Math.round(mediaEvent.getCurrentTime()))
+      }
+    }, 1000)
+    return () => clearInterval(id)
+  }, [mediaEvent])
+
+  function changeCurrentTime(time) {
+    if (mediaEvent) {
+      mediaEvent.seekTo(time)
+    }
+  }
 
   function songTime(time) {
     const timeRound = Math.round(time)

@@ -33,15 +33,14 @@ export function Store ({ children }) {
   const [mediaEvent, setMediaEvent] = useState()
 
   const [duration, setDuration] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0)
 
-  useEffect(() => { 
-    const id = setInterval(() => {
-      if (mediaEvent) setCurrentTime(Math.round(mediaEvent.getCurrentTime()))
-      if (mediaEvent) setVolume(Math.round(mediaEvent.getVolume()))
-    }, 50)
-    return () => clearInterval(id)
-  }, [mediaEvent])
+  // useEffect(() => { 
+  //   const id = setInterval(() => {
+  //     if (mediaEvent) setCurrentTime(Math.round(mediaEvent.getCurrentTime()))
+  //     if (mediaEvent) setVolume(Math.round(mediaEvent.getVolume()))
+  //   }, 50)
+  //   return () => clearInterval(id)
+  // }, [mediaEvent])
 
   async function setSong (e) {
     const result = await MediaSearch(e)
@@ -83,10 +82,6 @@ export function Store ({ children }) {
   function setPlay(event) {
     setDuration(mediaEvent.getDuration())
     playSong()
-  }
-
-  function changeCurrentTime(time) {
-    mediaEvent.seekTo(time)
   }
 
   async function prevSong() {
@@ -167,7 +162,13 @@ export function Store ({ children }) {
   }
 
   function removeSongQueue(index) {
+    console.log(index)
     songQueue.splice(index, 1);
+  }
+
+  function changeQueueOrder(queue) {
+    console.log('queue', queue)
+    setSongQueue(queue)
   }
 
   function addSearchList(songs) {
@@ -178,6 +179,7 @@ export function Store ({ children }) {
     <Context.Provider value={{ 
       currentSong,
       setSong,
+      mediaEvent,
 
       isMute,
       muteSong,
@@ -193,8 +195,6 @@ export function Store ({ children }) {
       setPlay,
       
       duration,
-      currentTime,
-      changeCurrentTime,
 
       prevSong,
       nextSong,
@@ -207,6 +207,7 @@ export function Store ({ children }) {
       addSongQueue,
       songQueue,
       removeSongQueue,
+      changeQueueOrder,
 
       addSearchList,
       searchList,

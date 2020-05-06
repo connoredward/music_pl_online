@@ -2,6 +2,7 @@ import {useContext} from 'react'
 
 import {Popover} from 'antd'
 import {MdMoreHoriz, MdCancel, MdInbox} from 'react-icons/md'
+import DragSortableList from 'react-drag-sortable'
 
 import {Context as SongContext} from '~/store/song'
 
@@ -21,14 +22,24 @@ function MediaCard({song, album, artist, imgPre, onClick}) {
 }
 
 function CardContent() {
-  const {songQueue, removeSongQueue} = useContext(SongContext)
+  const {songQueue, removeSongQueue, changeQueueOrder} = useContext(SongContext)
+  var onSort = function(sortedList, dropEvent) {
+    changeQueueOrder(sortedList.map(({content}) => {return content.props}))
+    // console.log("sortedList", sortedList.map(({content}) => {return {...content.props}}));
+  }
   return (
     <div className={styles['queue_card_wrapper']}>
       {songQueue.length < 1 && (<div className={styles['empty_message']}>
         <MdInbox />
         <h1>Empty</h1>
       </div>)} 
-      {songQueue.map((item, index) => <MediaCard key={index} {...item} onClick={() => removeSongQueue(index)} />)}
+      <DragSortableList 
+        items={songQueue.map((item, index) => { return {content: (<MediaCard key={index} {...item} onClick={() => removeSongQueue(index)} />)}})} 
+        onSort={onSort} 
+        dropBackTransitionDuration={0.3} 
+        type='vertical'
+      />
+      {/* {songQueue.map((item, index) => <MediaCard key={index} {...item} onClick={() => removeSongQueue(index)} />)} */}
     </div>
   )
 }

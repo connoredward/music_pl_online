@@ -7,13 +7,16 @@ import MediaPlayer from '~/components/modules/mediaPlayer'
 
 import {Context as SongContext} from '~/store/song'
 
-import styles from './styles.scss'
+const styles = {
+  background: 'rgba(46,46,46,1)',
+  minHeight: '100vh'
+}
 
 export function MediaWrapper({children, setPageUrl}) {
   const {currentSong} = useContext(SongContext)
 
   return (
-    <div className={styles.main}>
+    <div style={styles}>
       <SearchForm setPageUrl={url => setPageUrl(url)} />
       {children}
       <MediaPlayer {...currentSong} />

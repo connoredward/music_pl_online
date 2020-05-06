@@ -55,9 +55,15 @@
 }
 
 :global {
+  .ant-popover.ant-popover-placement-topRight,
   .ant_popover {
     position: fixed;
   }
+  .ant-popover-arrow {
+    border-right-color: rgba(46,46,46,1);
+    border-bottom-color: rgba(46,46,46,1);
+  }
+  .ant-popover-inner,
   .ant_popover_inner_content {
     background: rgba(46,46,46,1);
   }
