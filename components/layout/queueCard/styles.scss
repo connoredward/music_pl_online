@@ -25,6 +25,9 @@
   width: 100%;
   display: flex;
   padding: 5px 0;
+  &:hover {
+    cursor: pointer;
+  }
   button {
     color: white;
   }
