@@ -17,17 +17,24 @@ export function Main({listen, search}) {
   const {addSearchList} = useContext(SongContext)
 
   useEffect(() => {
-    setPageUrl(listen)
-    if (search) searchMusic(search)
+    if (search) {
+      searchMusic(search)
+      setPageUrl({search})
+    }
+    if (listen) {
+      setPageUrl(listen)
+    }
+
     Router.events.on('routeChangeComplete', (url) => {
       setPageUrl(url.split('=')[1])
     })
-  }, [listen])
+  }, [listen, search])
 
-  function changeRoute(slug) {
-    const href = `/?listen=${slug}`
+  function changeRoute({search, listen}) {
+    console.log(search, listen)
+    const href = search ? `/?search=${search.replace(/ /g, '_')}` : `/?listen=${listen}`
     router.push(href, href, {shallow: true})
-    setPageUrl(slug)
+    setPageUrl(listen)
   }
 
   function emptyRoute(url) {
@@ -40,7 +47,7 @@ export function Main({listen, search}) {
   }
 
   return (
-    <MediaWrapper setPageUrl={() => emptyRoute()}>
+    <MediaWrapper setPageUrl={link => changeRoute(link)} emptyRoute={() => emptyRoute()}>
       <Head><title>musci_pl</title></Head>
       {!pageUrl && (<HomePage changeRoute={link => changeRoute(link)} />)}
       {pageUrl && (<MusicPage slug={pageUrl} changeRoute={link => changeRoute(link)} />)}

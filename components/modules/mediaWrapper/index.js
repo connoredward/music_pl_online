@@ -12,12 +12,12 @@ const styles = {
   minHeight: '100vh'
 }
 
-export function MediaWrapper({children, setPageUrl}) {
+export function MediaWrapper({children, setPageUrl, emptyRoute}) {
   const {currentSong} = useContext(SongContext)
 
   return (
     <div style={styles}>
-      <SearchForm setPageUrl={url => setPageUrl(url)} />
+      <SearchForm setPageUrl={url => setPageUrl(url)} emptyRoute={() => emptyRoute()} />
       {children}
       <MediaPlayer {...currentSong} />
       <PlayerBar />

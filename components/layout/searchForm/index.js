@@ -1,6 +1,5 @@
 import {useContext} from 'react'
 
-import fetch from 'isomorphic-unfetch'
 import {Form, Input, Button} from 'antd'
 import {MdSearch} from 'react-icons/md'
 
@@ -33,17 +32,17 @@ function SearchFormRaw ({ form, searchMusic }) {
 
 const SearchForm = Form.create({ name: 'search-spotify' })(SearchFormRaw)
 
-export function SearchFormWrapper({setPageUrl}) {
+export function SearchFormWrapper({setPageUrl, emptyRoute}) {
   const {addSearchList} = useContext(SongContext)
 
   async function searchMusic(search) {
-    setPageUrl()
+    setPageUrl({search})
     addSearchList(await searchSpotify(search))
   }
 
   return (
     <div className={styles['search_wrapper']}>
-      <span onClick={() => setPageUrl()}>msuci_pl</span>
+      <span onClick={() => emptyRoute()}>msuci_pl</span>
       <SearchForm searchMusic={search => searchMusic(search)} />
     </div>
   )
