@@ -29,7 +29,9 @@ export function Main({listen, search}) {
         searchMusic(url.split('=')[1])
         setPageUrl('')
       }
-      if (url.search('listen') > 0) setPageUrl(url.split('=')[1])
+      if (url.search('listen') > 0) {
+        setPageUrl(url.split('=')[1])
+      }
     })
   }, [listen, search])
 

@@ -14,7 +14,15 @@ export async function searchMusic(search) {
       headers
     })
     const body = await response.json()
-    const compareThis = body.tracks.items.map((item) => {return{artist: item.artists[0].name, album: item.album.name, imgPre: item.album.images[1].url, id: item.album.id}})
+    const compareThis = body.tracks.items.map((item) => {
+      return {
+        artist: item.artists[0].name, 
+        album: item.album.name, 
+        imgPre: item.album.images[1].url, 
+        id: item.album.id
+      }
+    })
+    
     return getUnique(compareThis, 'id')
 }
 
