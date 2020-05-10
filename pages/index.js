@@ -17,16 +17,19 @@ export function Main({listen, search}) {
   const {addSearchList} = useContext(SongContext)
 
   useEffect(() => {
-    if (search) {
-      searchMusic(search)
-      setPageUrl({search})
-    }
-    if (listen) {
-      setPageUrl(listen)
-    }
+    if (search) searchMusic(search)
+    if (listen) setPageUrl(listen)
 
     Router.events.on('routeChangeComplete', (url) => {
-      setPageUrl(url.split('=')[1])
+      if (url === '/') {
+        addSearchList([])
+        setPageUrl('')
+      }
+      if (url.search('search') > 0) {
+        searchMusic(url.split('=')[1])
+        setPageUrl('')
+      }
+      if (url.search('listen') > 0) setPageUrl(url.split('=')[1])
     })
   }, [listen, search])
 
@@ -37,7 +40,8 @@ export function Main({listen, search}) {
     setPageUrl(listen)
   }
 
-  function emptyRoute(url) {
+  function emptyRoute() {
+    addSearchList([])
     router.push('/?', '/', {shallow: true})
     setPageUrl('')
   }

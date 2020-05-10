@@ -43,13 +43,19 @@ export function HomePage({changeRoute}) {
             album={name} 
             artist={owner.display_name} 
             imgPre={images[1].url} id={id} 
-            onClick={() => changeRoute(name.split('_')[2])}
+            onClick={() => changeRoute({listen: name.split('_')[2]})}
           />
         )}
       </div>
 
       <div className={styles['search_wrapper']}>
-        {searchList.map((item, index) => <SearchCard key={index} {...item} onClick={vals => changeRoute(vals)} />)}
+        {searchList.map((item, index) => 
+          <SearchCard 
+            key={index} 
+            {...item} 
+            onClick={vals => changeRoute({listen: vals})} 
+          />
+        )}
       </div>
 
       {/* <h2>Recently added</h2> */}
