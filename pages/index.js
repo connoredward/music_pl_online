@@ -34,7 +34,6 @@ export function Main({listen, search}) {
   }, [listen, search])
 
   function changeRoute({search, listen}) {
-    console.log(search, listen)
     const href = search ? `/?search=${search.replace(/ /g, '_')}` : `/?listen=${listen}`
     router.push(href, href, {shallow: true})
     setPageUrl(listen)
