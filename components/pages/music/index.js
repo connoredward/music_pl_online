@@ -46,8 +46,8 @@ export function MusicPage({slug}) {
     const songData = await callRoute({route: slug.length === 4 ? '/api/getSongData' : '/api/getAlbumData', item: slug})
     const e = await sortMusicList(songData)
     addPageSongList(e)
-    if (songList && songList.songs && songList.length === 0) {
-      addSongList(songList)
+    if (songList.songs.length === 0) {
+      addSongList(e)
     }
     // getPitchForkData({artist:songData.artists[0].name, album: songData.name})
 

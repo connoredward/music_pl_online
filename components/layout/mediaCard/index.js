@@ -8,7 +8,6 @@ import QueueNotification from '~/components/layout/queueNotification'
 import styles from './styles.scss'
 
 export function MediaCard(props) {
-  console.log('media card', props)
   const {
     song,
     artist,

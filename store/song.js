@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState} from 'react'
 
 import MediaSearch from '~/components/modules/mediaSearch'
 
@@ -21,7 +21,7 @@ async function getAlbumCover(val) {
 export function Store ({ children }) {
   const [currentSong, setCurrentSong] = useState({})
 
-  const [songList, setSongList] = useState([])
+  const [songList, setSongList] = useState({songs: []})
   const [pageSongList, setPageSongList] = useState([])
 
 
@@ -35,14 +35,6 @@ export function Store ({ children }) {
   const [mediaEvent, setMediaEvent] = useState()
 
   const [duration, setDuration] = useState(0)
-
-  // useEffect(() => { 
-  //   const id = setInterval(() => {
-  //     if (mediaEvent) setCurrentTime(Math.round(mediaEvent.getCurrentTime()))
-  //     if (mediaEvent) setVolume(Math.round(mediaEvent.getVolume()))
-  //   }, 50)
-  //   return () => clearInterval(id)
-  // }, [mediaEvent])
 
   async function setSong (e) {
     const result = await MediaSearch(e)
@@ -86,107 +78,38 @@ export function Store ({ children }) {
     playSong()
   }
 
-  async function prevSong() {
-    let currentSongIndex
-    if (!songList.tracks) currentSongIndex = songList.items.findIndex(({name}) => name === currentSong.media.song)
-    else currentSongIndex = songList.tracks.items.findIndex(({track}) => track.name === currentSong.media.song)
-    
-    if (currentSongIndex === 0) setCurrentSong({}) & pauseSong()
-    else {
-      const artist = songList.items 
-          ? songList.items[currentSongIndex - 1].artists[0].name
-          : songList.tracks.items[currentSongIndex - 1].track.artists[0].name
-      const song = songList.items
-        ? songList.items[currentSongIndex - 1].name
-        : songList.tracks.items[currentSongIndex - 1].track.name
-  
-      let album
-      let imgPre
-
-      if (songList.items) {
-        const albumData = await getAlbumCover(songList.href.split('/')[5])
-        album = albumData.name
-        imgPre = albumData.images[0].url
-      } 
-      else {
-        album = songList.tracks.items[currentSongIndex - 1].track.album.name
-        imgPre = songList.tracks.items[currentSongIndex - 1].track.album.images[1].url
+  function prevSong() {
+    if (mediaEvent.getCurrentTime() < 5) {
+      const i = songList.songs.findIndex(({songId}) => songId === currentSong.media.songId)
+      if (i === 0) {
+        setCurrentSong({})
+        pauseSong()
+      } else {
+        setSong(songList.songs[i - 1 ])
       }
-      setSong({artist, song, album, imgPre})
+    } else {
+      mediaEvent.seekTo(0)
     }
   }
 
-  async function nextSong() {
-    console.log('NEXT SONG')
-
+  function nextSong() {
     if (songQueue.length >= 1) {
       setSong(songQueue[0])
       songQueue.shift()
     } else {
-      let currentSongIndex 
-      if (!songList.tracks) currentSongIndex = songList.items.findIndex(({name}) => name === currentSong.media.song)
-      else currentSongIndex = songList.tracks.items.findIndex(({track}) => track.name === currentSong.media.song)
-      
-      if (currentSongIndex + 1 === songList.length) setCurrentSong({}) & pauseSong()
-      else {
-        const artist = songList.items 
-          ? songList.items[currentSongIndex + 1].artists[0].name
-          : songList.tracks.items[currentSongIndex + 1].track.artists[0].name
-        const song = songList.items
-          ? songList.items[currentSongIndex + 1].name
-          : songList.tracks.items[currentSongIndex + 1].track.name
-    
-        let album
-        let imgPre
-
-        if (songList.items) {
-          const albumData = await getAlbumCover(songList.href.split('/')[5])
-          album = albumData.name
-          imgPre = albumData.images[0].url
-        } 
-        else {
-          album = songList.tracks.items[currentSongIndex + 1].track.album.name
-          imgPre = songList.tracks.items[currentSongIndex + 1].track.album.images[1].url
-        }
-        setSong({artist, song, album, imgPre})
+      const i = songList.songs.findIndex(({songId}) => songId === currentSong.media.songId)
+      if (i + 1 === songList.songs.length) {
+        setCurrentSong({})
+        pauseSong()
+      } else {
+        setSong(songList.songs[i + 1 ])
       }
     }
   }
 
-  const songListStruc = (songs, type) => {
-    if (type === 'playlist') {
-      const {track} = songs
-      return {
-        name: track.name,
-        songId: track.id,
-        artist: track.artists[0].name,
-        artistId: track.artists[0].id,
-        album: track.album.name,
-        albumCover: track.album.images[1].url,
-        albumId: track.album.id
-      }
-    } else {
-      const {name, artists, id} = songs
-      return {
-        name, 
-        songId: id,
-        artist: artists[0].name
-      }
-    }
-  }
 
   function addSongList(props) {
-    const {id, owner, artists, name, type, images, tracks} = props
-    setSongList({
-      id,
-      type,
-      albumArtist: type === 'playlist' 
-        ? owner.display_name 
-        : artists[0].name,
-      albumName: name,
-      albumCover: images[1].url,
-      songs: tracks.items.map(item => songListStruc(item, type))
-    })
+    setSongList(props)
   }
 
   function addPageSongList(songs) {
