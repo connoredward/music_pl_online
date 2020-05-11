@@ -22,7 +22,7 @@ export function MediaCard(props) {
 
   return (
     <div 
-      className={classNames(styles['card_wrapper'], styles[media && media.song === song ? 'active' : null])}
+      className={classNames(styles['card_wrapper'], styles[media?.song === song ? 'active' : null])}
       onClick={() => onClick(props)}
     >
       <div className={styles['credentials_wrapper']}>

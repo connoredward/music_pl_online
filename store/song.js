@@ -4,20 +4,6 @@ import MediaSearch from '~/components/modules/mediaSearch'
 
 export const Context = React.createContext()
 
-async function getAlbumCover(val) {
-  return await new Promise(async(res, rej) => {
-    const headers = {
-      'Content-Type': 'application/json'
-    }
-    const response = await fetch('/api/getAlbum', {
-      method: 'POST', 
-      body: JSON.stringify({val}),
-      headers
-    })
-    res(await response.json())
-  })
-}
-
 export function Store ({ children }) {
   const [currentSong, setCurrentSong] = useState({})
 
