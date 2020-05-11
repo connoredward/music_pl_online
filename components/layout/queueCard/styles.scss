@@ -23,9 +23,10 @@
 .queue_card {
   width: 100%;
   display: flex;
-  padding: 5px 0;
+  padding: 8px 16px;
   &:hover {
     cursor: pointer;
+    background: rgb(30, 30, 30);
   }
   button {
     color: white;
@@ -58,15 +59,18 @@
 
 :global {
   .ant-popover.ant-popover-placement-topRight,
-  .ant_popover {
+  .ant-popover {
     position: fixed;
-  }
-  .ant-popover-arrow {
-    border-right-color: rgba(46,46,46,1);
-    border-bottom-color: rgba(46,46,46,1);
+    .ant-popover-content {
+      .ant-popover-arrow {
+        border-right-color: rgba(46,46,46,1) !important;
+        border-bottom-color: rgba(46,46,46,1) !important;
+      }
+    }
   }
   .ant-popover-inner,
-  .ant_popover_inner_content {
+  .ant-popover-inner-content {
     background: rgba(46,46,46,1);
+    padding: 0 !important;
   }
 }

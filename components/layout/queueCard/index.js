@@ -21,34 +21,47 @@ function MediaCard({song, album, artist, imgPre, onClick}) {
   )
 }
 
-function CardContent() {
-  const {songQueue, removeSongQueue, changeQueueOrder} = useContext(SongContext)
-  var onSort = function(sortedList, dropEvent) {
-    changeQueueOrder(sortedList.map(({content}) => {return content.props}))
-    // console.log("sortedList", sortedList.map(({content}) => {return {...content.props}}));
-  }
+function CardContent({songQueue, onSort, removeSong}) {
   return (
     <div className={styles['queue_card_wrapper']}>
-      {songQueue.length < 1 && (<div className={styles['empty_message']}>
-        <MdInbox />
-        <h1>Empty</h1>
-      </div>)} 
+      {songQueue.length < 1 && (
+        <div className={styles['empty_message']}>
+          <MdInbox />
+          <h1>Empty</h1>
+        </div>
+      )} 
+
       <DragSortableList 
-        items={songQueue.map((item, index) => { return {content: (<MediaCard key={index} {...item} onClick={() => removeSongQueue(index)} />)}})} 
+        items={songQueue.map((item, index) => { return {content: (<MediaCard key={index} {...item} onClick={() => removeSong(index)} />)}})} 
         onSort={onSort} 
         dropBackTransitionDuration={0.3} 
         type='vertical'
       />
-      {/* {songQueue.map((item, index) => <MediaCard key={index} {...item} onClick={() => removeSongQueue(index)} />)} */}
     </div>
   )
 }
 
 export function QueueCard() {
+  const {songQueue, removeSongQueue, changeQueueOrder} = useContext(SongContext)
+
+  const onSort = (sortedList) => {
+    changeQueueOrder(sortedList.map(({content}) => {return content.props}))
+  }
+  
+  function removeSong(index) {
+    removeSongQueue(index)
+  }
+
   return (
     <Popover
       className={styles['queue_popover_wrapper']}
-      content={<CardContent />} 
+      content={
+        <CardContent 
+          songQueue={songQueue} 
+          onSort={sortedList => onSort(sortedList)} 
+          removeSong={index => removeSong(index)} 
+        />
+      } 
       placement='topRight'
       trigger='click'
     >

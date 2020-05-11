@@ -162,12 +162,10 @@ export function Store ({ children }) {
   }
 
   function removeSongQueue(index) {
-    console.log(index)
-    songQueue.splice(index, 1);
+    setSongQueue(song => song.filter((_, i) => i !== index))
   }
 
   function changeQueueOrder(queue) {
-    console.log('queue', queue)
     setSongQueue(queue)
   }
 
