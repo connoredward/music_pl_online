@@ -17,7 +17,7 @@ export function SongTimeline() {
       if (mediaEvent) {
         setCurrentTime(Math.round(mediaEvent.getCurrentTime()))
       }
-    }, 1000)
+    }, 10)
     return () => clearInterval(id)
   }, [mediaEvent])
 
