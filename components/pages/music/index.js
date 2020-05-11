@@ -7,6 +7,8 @@ import PageWrapper from '~/components/layout/pageWrapper'
 import MediaCard from '~/components/layout/mediaCard'
 import SearchMedia from '~/components/layout/searchMedia'
 
+import {sortMusicList} from '~api/spotify'
+
 import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
@@ -33,7 +35,6 @@ export function MusicPage({slug}) {
     sortPlaylists
   } = useContext(SongContext)
 
-  const [albumInfo, setAlbumInfo] = useState()
   const [pitchforkReview, setPitchforkReview] = useState({})
 
   useEffect(() => {
@@ -42,20 +43,14 @@ export function MusicPage({slug}) {
   }, [slug])
 
   async function onLoad() {
-    const songData = await callRoute({route: slug.length === 4 || typeof slug === 'number' ? '/api/getSongData' : '/api/getAlbumData', item: slug})
-    addPageSongList(songData)
-    if (songList.length === 0) addSongList(songData)
-    
-    if (slug.length > 6) getAlbumInfo(songData.href.split('/')[5])
-    else setAlbumInfo({artist: songData.owner.display_name, album: songData.name, albumImg: songData.images[0].url})
-  }
-
-  async function getAlbumInfo(albumId) {
-    const songData = await callRoute({route: '/api/getAlbum', item: albumId})
-    if (songData.album_type === 'album') {
-      setAlbumInfo({artist: songData.artists[0].name, album: songData.name, albumImg: songData.images[1].url}) 
-      getPitchForkData({artist:songData.artists[0].name, album: songData.name})
+    const songData = await callRoute({route: slug.length === 4 ? '/api/getSongData' : '/api/getAlbumData', item: slug})
+    const e = await sortMusicList(songData)
+    addPageSongList(e)
+    if (songList && songList.songs && songList.length === 0) {
+      addSongList(songList)
     }
+    // getPitchForkData({artist:songData.artists[0].name, album: songData.name})
+
   }
 
   async function getPitchForkData(props) {
@@ -68,29 +63,28 @@ export function MusicPage({slug}) {
   return (
     <PageWrapper className={styles['playlist_page']}>
       <div className={styles['album_wrapper']}>
-        {albumInfo && (
-          <>
-            <div className={styles['album_description']}>
-              <h1>{albumInfo.artist}</h1>
-              <h2>{albumInfo.album}</h2>
-              {slug.length > 6 && (
-                <>
-                  {pitchforkReview[0] 
-                    ? <div className={styles['pitchfork_content']}>
-                        <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
-                        <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}><span>{pitchforkReview[0].score}</span></div>
-                      </div>
-                    : <span>Loading...</span>
-                  }
-                </>
-              )}
-            </div>
-            <div className={styles['art_cover']} style={{ backgroundImage: `url(${albumInfo.albumImg})` }} />
-          </>
-        )}
+        <div className={styles['album_description']}>
+          <h1>{pageSongList.albumArtist}</h1>
+          <h2>{pageSongList.albumName}</h2>
+          {slug.length > 6 && (
+            <>
+              {pitchforkReview[0] 
+                ? <div className={styles['pitchfork_content']}>
+                    <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
+                    <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}><span>{pitchforkReview[0].score}</span></div>
+                  </div>
+                : <span>Loading...</span>
+              }
+            </>
+          )}
+        </div>
+        <div className={styles['art_cover']} style={{ backgroundImage: `url(${pageSongList.albumCover})` }} />
       </div>
+
+      
       <div className={styles['card_grid']}>
-        {pageSongList.tracks && pageSongList.tracks.items && (
+        {pageSongList?.songs?.map((song, index) => <MediaCard key={index} {...song} onClick={e => setSong(e)} />)}
+        {/* {pageSongList.tracks && pageSongList.tracks.items && (
           pageSongList.tracks.items.map((item) => <MediaCard {...item} onClick={e => setSong(e) & sortPlaylists()} />)
         )}
         {pageSongList.items && (
@@ -110,7 +104,7 @@ export function MusicPage({slug}) {
                 & sortPlaylists()
               } 
             />)
-          )}
+          )} */}
       </div>
     </PageWrapper>
   )

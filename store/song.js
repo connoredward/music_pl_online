@@ -9,7 +9,7 @@ async function getAlbumCover(val) {
     const headers = {
       'Content-Type': 'application/json'
     }
-    const response = await fetch('/getAlbum', {
+    const response = await fetch('/api/getAlbum', {
       method: 'POST', 
       body: JSON.stringify({val}),
       headers
@@ -23,6 +23,8 @@ export function Store ({ children }) {
 
   const [songList, setSongList] = useState([])
   const [pageSongList, setPageSongList] = useState([])
+
+
   const [searchList, setSearchList] = useState([])
   const [songQueue, setSongQueue] = useState([])
 
@@ -115,6 +117,8 @@ export function Store ({ children }) {
   }
 
   async function nextSong() {
+    console.log('NEXT SONG')
+
     if (songQueue.length >= 1) {
       setSong(songQueue[0])
       songQueue.shift()
@@ -149,8 +153,40 @@ export function Store ({ children }) {
     }
   }
 
-  function addSongList(songs) {
-    setSongList(songs)
+  const songListStruc = (songs, type) => {
+    if (type === 'playlist') {
+      const {track} = songs
+      return {
+        name: track.name,
+        songId: track.id,
+        artist: track.artists[0].name,
+        artistId: track.artists[0].id,
+        album: track.album.name,
+        albumCover: track.album.images[1].url,
+        albumId: track.album.id
+      }
+    } else {
+      const {name, artists, id} = songs
+      return {
+        name, 
+        songId: id,
+        artist: artists[0].name
+      }
+    }
+  }
+
+  function addSongList(props) {
+    const {id, owner, artists, name, type, images, tracks} = props
+    setSongList({
+      id,
+      type,
+      albumArtist: type === 'playlist' 
+        ? owner.display_name 
+        : artists[0].name,
+      albumName: name,
+      albumCover: images[1].url,
+      songs: tracks.items.map(item => songListStruc(item, type))
+    })
   }
 
   function addPageSongList(songs) {

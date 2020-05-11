@@ -8,27 +8,23 @@ import QueueNotification from '~/components/layout/queueNotification'
 import styles from './styles.scss'
 
 export function MediaCard(props) {
-  const {currentSong} = useContext(SongContext)
-  const {media} = currentSong
-
-  const [currentMedia, setCurrentMedia] = useState()
-
+  console.log('media card', props)
   const {
-    song = props.track.name,
-    artist = props.track.artists[0].name,
-    album = props.track.album.name,
-    imgPre = props.track.album.images[1].url,
-    onClick
+    song,
+    artist,
+    id,
+    onClick,
+    imgPre = '',
+    album = ''
   } = props
 
-  useEffect(() => {
-    if (song) setCurrentMedia({song, artist, album, imgPre})
-  }, [song])
+  const {currentSong} = useContext(SongContext)
+  const {media} = currentSong
 
   return (
     <div 
       className={classNames(styles['card_wrapper'], styles[media && media.song === song ? 'active' : null])}
-      onClick={() => onClick(currentMedia)}
+      onClick={() => onClick(props)}
     >
       <div className={styles['credentials_wrapper']}>
         <p>{song}</p>
