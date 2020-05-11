@@ -5,9 +5,9 @@ import classNames from 'classnames'
 
 import PageWrapper from '~/components/layout/pageWrapper'
 import MediaCard from '~/components/layout/mediaCard'
-import SearchMedia from '~/components/layout/searchMedia'
+import SearchCard from '~/components/layout/searchMedia'
 
-import {sortMusicList} from '~api/spotify'
+import {sortMusicList, getPitchfork} from '~api/spotify'
 
 import {Context as SongContext} from '~/store/song'
 
@@ -49,13 +49,9 @@ export function MusicPage({slug}) {
     if (songList.songs.length === 0) {
       addSongList(e)
     }
-    // getPitchForkData({artist:songData.artists[0].name, album: songData.name})
-
-  }
-
-  async function getPitchForkData(props) {
-    const body = await callRoute({route: '/api/getPitchforkData', item: props})
-    setPitchforkReview(body)
+    if (e.type === 'album') {
+      setPitchforkReview(await getPitchfork({artist: e.albumArtist, album: e.albumName}))
+    }
   }
 
   if (!songList) return (<div className={styles['loading_state']}>Loading...</div>)
@@ -66,45 +62,31 @@ export function MusicPage({slug}) {
         <div className={styles['album_description']}>
           <h1>{pageSongList.albumArtist}</h1>
           <h2>{pageSongList.albumName}</h2>
-          {slug.length > 6 && (
-            <>
-              {pitchforkReview[0] 
-                ? <div className={styles['pitchfork_content']}>
-                    <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
-                    <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}><span>{pitchforkReview[0].score}</span></div>
-                  </div>
-                : <span>Loading...</span>
-              }
-            </>
-          )}
+          {pitchforkReview[0] 
+            ? <div className={styles['pitchfork_content']}>
+                <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
+                <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}>
+                  <span>{pitchforkReview[0].score}</span>
+                </div>
+              </div>
+            : <span>Loading...</span>
+          }
         </div>
         <div className={styles['art_cover']} style={{ backgroundImage: `url(${pageSongList.albumCover})` }} />
       </div>
 
       
       <div className={styles['card_grid']}>
-        {pageSongList?.songs?.map((song, index) => <MediaCard key={index} {...song} onClick={e => setSong(e)} />)}
-        {/* {pageSongList.tracks && pageSongList.tracks.items && (
-          pageSongList.tracks.items.map((item) => <MediaCard {...item} onClick={e => setSong(e) & sortPlaylists()} />)
+        {pageSongList.type === 'playlist' && (
+          pageSongList.songs.map((song, index) => 
+            <MediaCard key={index} {...song} onClick={e => setSong(e) & sortPlaylists()} />
+          )
         )}
-        {pageSongList.items && (
-          pageSongList.items.map((item) => 
-            <SearchMedia {...item} 
-              imgPre={albumInfo && albumInfo.albumImg ? albumInfo.albumImg : undefined} 
-              album={albumInfo && albumInfo.albumImg ? albumInfo.album : undefined}
-              onClick={e => 
-                setSong({...e, 
-                  imgPre: albumInfo && albumInfo.albumImg 
-                    ? albumInfo.albumImg 
-                    : undefined, 
-                  album: albumInfo && albumInfo.albumImg 
-                    ? albumInfo.album 
-                    : undefined
-                  }) 
-                & sortPlaylists()
-              } 
-            />)
-          )} */}
+        {pageSongList.type === 'album' && (
+          pageSongList.songs.map((song, index) => 
+            <SearchCard key={index} {...song} onClick={e => setSong(e) & sortPlaylists()} />
+          )
+        )}
       </div>
     </PageWrapper>
   )

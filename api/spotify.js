@@ -12,6 +12,11 @@ async function callRoute({route, item}) {
   })
 }
 
+
+export async function getPitchfork(props) {
+  return await callRoute({route: '/api/getPitchforkData', item: props})
+}
+
 const songListStruc = (songs, type) => {
   if (type === 'playlist') {
     const {track} = songs
@@ -59,5 +64,6 @@ export async function sortMusicList (props) {
 }
 
 export default {
-  sortMusicList
+  sortMusicList,
+  getPitchfork
 }
