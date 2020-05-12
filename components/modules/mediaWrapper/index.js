@@ -20,7 +20,7 @@ export function MediaWrapper({children, setPageUrl, emptyRoute}) {
       <SearchForm setPageUrl={url => setPageUrl(url)} emptyRoute={() => emptyRoute()} />
       {children}
       <MediaPlayer {...currentSong} />
-      <PlayerBar />
+      <PlayerBar onClick={url => setPageUrl(url)} />
     </div>
   )
 }

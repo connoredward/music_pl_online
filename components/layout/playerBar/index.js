@@ -15,7 +15,7 @@ import {
 
 import styles from './styles.scss'
 
-export function PlayerBar() {
+export function PlayerBar({onClick}) {
   const {
     isPause,
     pauseSong,
@@ -32,7 +32,7 @@ export function PlayerBar() {
           {currentSong.media && (
             <div>
               <div 
-                onClick={() => console.log(currentSong)}
+                onClick={() => onClick({listen: currentSong.media.id})}
                 className={styles['art_cover']} 
                 style={{ background: `url(${currentSong.media.albumCover})` }} 
               />

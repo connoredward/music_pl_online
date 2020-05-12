@@ -63,7 +63,7 @@ export function MusicPage({slug}) {
       <div className={styles['card_grid']}>
         {pageSongList.type === 'playlist' && (
           pageSongList.songs.map((song, index) => 
-            <MediaCard key={index} {...song} onClick={e => setSong(e) & sortPlaylists()} />
+            <MediaCard key={index} {...song} onClick={e => setSong({...e, id: pageSongList.id}) & sortPlaylists()} />
           )
         )}
         {pageSongList.type === 'album' && (
@@ -71,7 +71,7 @@ export function MusicPage({slug}) {
             <SearchCard key={index} {...song} 
               albumCover={pageSongList.albumCover} 
               album={pageSongList.albumName}
-              onClick={e => setSong(e) & sortPlaylists()} 
+              onClick={e => setSong({...e, id: pageSongList.id}) & sortPlaylists()} 
             />
           )
         )}

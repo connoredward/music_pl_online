@@ -73,7 +73,7 @@ export function Store ({ children }) {
         pauseSong()
       } else {
         const newSong = songList.type === 'album' 
-          ? {...songList.songs[i - 1], albumCover: songList.albumCover, album: songList.albumName}
+          ? {...songList.songs[i - 1], albumCover: songList.albumCover, album: songList.albumName, id:songList.id}
           : {...songList.songs[i - 1]}
         setSong(newSong)
       }
@@ -93,7 +93,7 @@ export function Store ({ children }) {
         pauseSong()
       } else {
         const newSong = songList.type === 'album' 
-          ? {...songList.songs[i + 1], albumCover: songList.albumCover, album: songList.albumName}
+          ? {...songList.songs[i + 1], albumCover: songList.albumCover, album: songList.albumName, id:songList.id}
           : {...songList.songs[i + 1]}
         setSong(newSong)
       }
