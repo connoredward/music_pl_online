@@ -54,7 +54,7 @@ export function MusicPage({slug}) {
     }
   }
 
-  if (!songList) return (<div className={styles['loading_state']}>Loading...</div>)
+  if (!pageSongList) return (<div className={styles['loading_state']}>Loading...</div>)
 
   return (
     <PageWrapper className={styles['playlist_page']}>
@@ -62,15 +62,14 @@ export function MusicPage({slug}) {
         <div className={styles['album_description']}>
           <h1>{pageSongList.albumArtist}</h1>
           <h2>{pageSongList.albumName}</h2>
-          {pitchforkReview[0] 
-            ? <div className={styles['pitchfork_content']}>
-                <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
-                <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}>
-                  <span>{pitchforkReview[0].score}</span>
-                </div>
+          {pitchforkReview[0] && (
+            <div className={styles['pitchfork_content']}>
+              <p>{pitchforkReview[0].editorial.abstract} <a href={`https://pitchfork.com${pitchforkReview[0].url}`} target='_blank'>[full article]</a></p>
+              <div className={classNames(styles['pitchfork_score'], styles[pitchforkReview[0].score >= 9 ? 'red' : 'black'])}>
+                <span>{pitchforkReview[0].score}</span>
               </div>
-            : <span>Loading...</span>
-          }
+            </div>
+          )}
         </div>
         <div className={styles['art_cover']} style={{ backgroundImage: `url(${pageSongList.albumCover})` }} />
       </div>
@@ -84,7 +83,11 @@ export function MusicPage({slug}) {
         )}
         {pageSongList.type === 'album' && (
           pageSongList.songs.map((song, index) => 
-            <SearchCard key={index} {...song} onClick={e => setSong(e) & sortPlaylists()} />
+            <SearchCard key={index} {...song} 
+              albumCover={pageSongList.albumCover} 
+              album={pageSongList.albumName}
+              onClick={e => setSong(e) & sortPlaylists()} 
+            />
           )
         )}
       </div>

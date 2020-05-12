@@ -8,14 +8,7 @@ import QueueNotification from '~/components/layout/queueNotification'
 import styles from './styles.scss'
 
 export function MediaCard(props) {
-  const {
-    song,
-    artist,
-    id,
-    onClick,
-    imgPre = '',
-    album = ''
-  } = props
+  const {album, albumCover, albumId, artist, artistId, onClick, song, songId} = props
 
   const {currentSong} = useContext(SongContext)
   const {media} = currentSong
@@ -29,8 +22,8 @@ export function MediaCard(props) {
         <p>{song}</p>
         <span>{artist} - <span>{album}</span></span>
       </div>
-      <QueueNotification song={song} artist={artist} imgPre={imgPre} album={album} />
-      <div className={styles['art_cover']} style={{ backgroundImage: `url(${imgPre})` }} />
+      <QueueNotification song={song} artist={artist} imgPre={albumCover} album={album} />
+      <div className={styles['art_cover']} style={{ backgroundImage: `url(${albumCover})` }} />
     </div>
   )
 }
