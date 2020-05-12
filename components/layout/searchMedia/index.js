@@ -8,7 +8,7 @@ import QueueNotification from '~/components/layout/queueNotification'
 import styles from './styles.scss'
 
 export function SearchMedia(props) {
-  const {song, songId, artist, onClick, albumCover, album} = props
+  const {song, artist, onClick} = props
 
   const {currentSong} = useContext(SongContext)
   const {media} = currentSong
@@ -21,7 +21,7 @@ export function SearchMedia(props) {
       <div className={styles['credentials_wrapper']}>
         <p>{song} - <span>{artist}</span></p>
       </div>
-      <QueueNotification song={song} artist={artist} albumCover={albumCover} album={album} />
+      <QueueNotification {...props} />
     </div>
   )
 }

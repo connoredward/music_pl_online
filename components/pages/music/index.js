@@ -1,6 +1,5 @@
 import {useState, useEffect, useContext} from 'react'
 
-import fetch from 'isomorphic-unfetch'
 import classNames from 'classnames'
 
 import PageWrapper from '~/components/layout/pageWrapper'
@@ -12,18 +11,6 @@ import {sortMusicList, getPitchfork} from '~api/spotify'
 import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
-
-async function callRoute({route, item}) {
-  return await new Promise(async(res, rej) => {
-    const headers = {'Content-Type': 'application/json'}
-    const response = await fetch(route, {
-      method: 'POST', 
-      body: JSON.stringify({item}),
-      headers
-    })
-    res(await response.json())
-  })
-}
 
 export function MusicPage({slug}) {
   const {
@@ -43,12 +30,10 @@ export function MusicPage({slug}) {
   }, [slug])
 
   async function onLoad() {
-    const songData = await callRoute({route: slug.length === 4 ? '/api/getSongData' : '/api/getAlbumData', item: slug})
-    const e = await sortMusicList(songData)
+    const e = await sortMusicList(slug)
     addPageSongList(e)
-    if (songList.songs.length === 0) {
-      addSongList(e)
-    }
+    if (songList.songs.length === 0) addSongList(e)
+
     if (e.type === 'album') {
       setPitchforkReview(await getPitchfork({artist: e.albumArtist, album: e.albumName}))
     }

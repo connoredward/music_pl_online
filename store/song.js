@@ -23,6 +23,7 @@ export function Store ({ children }) {
   const [duration, setDuration] = useState(0)
 
   async function setSong (e) {
+    console.log('e', e)
     const result = await MediaSearch(e)
     setCurrentSong({media: e, searchedData: result[0]})
   }
@@ -83,7 +84,6 @@ export function Store ({ children }) {
 
   function nextSong() {
     if (songQueue.length >= 1) {
-      console.log(songQueue)
       setSong(songQueue[0])
       songQueue.shift()
     } else {

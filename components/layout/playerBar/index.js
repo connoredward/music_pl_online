@@ -31,7 +31,11 @@ export function PlayerBar() {
         <div className={styles['current_song']}>
           {currentSong.media && (
             <div>
-              <div className={styles['art_cover']} style={{ background: `url(${currentSong.media.albumCover})` }} />
+              <div 
+                onClick={() => console.log(currentSong)}
+                className={styles['art_cover']} 
+                style={{ background: `url(${currentSong.media.albumCover})` }} 
+              />
               <div className={styles['song_information']}>
                 <p>{currentSong.media.song}</p>
                 <p className={styles['artist_name']}>{currentSong.media.artist}</p>

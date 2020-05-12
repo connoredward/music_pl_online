@@ -53,11 +53,14 @@ function sortData(props) {
   }
 }
 
-export async function sortMusicList (props) {
-  if (props.type) {
-    return sortData(props)
+export async function sortMusicList (item) {
+  const route = item.length === 4 ? '/api/getSongData' : '/api/getAlbumData'
+  const body = await callRoute({route, item})
+
+  if (body.type) {
+    return sortData(body)
   } else {
-    const x = props.href.split('/')
+    const x = body.href.split('/')
     const id = x[x.findIndex(type => type === 'albums') + 1]
     return sortData(await callRoute({route: '/api/getAlbum', item: id}))
   }
