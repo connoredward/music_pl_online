@@ -38,7 +38,7 @@ export function PlayerBar({onClick}) {
               />
               <div className={styles['song_information']}>
                 <p>{currentSong.media.song}</p>
-                <p className={styles['artist_name']}>{currentSong.media.artist}</p>
+                <p className={styles['artist_name']} onClick={() => onClick({search: currentSong.media.artist})}>{currentSong.media.artist}</p>
               </div>
             </div>
           )}

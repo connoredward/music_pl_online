@@ -74,7 +74,7 @@ export function Store ({ children }) {
       } else {
         const newSong = songList.type === 'album' 
           ? {...songList.songs[i - 1], albumCover: songList.albumCover, album: songList.albumName, id:songList.id}
-          : {...songList.songs[i - 1]}
+          : {...songList.songs[i - 1], id: songList.songs[i - 1].albumId}
         setSong(newSong)
       }
     } else {
@@ -94,7 +94,7 @@ export function Store ({ children }) {
       } else {
         const newSong = songList.type === 'album' 
           ? {...songList.songs[i + 1], albumCover: songList.albumCover, album: songList.albumName, id:songList.id}
-          : {...songList.songs[i + 1]}
+          : {...songList.songs[i + 1], id: songList.songs[i + 1].albumId}
         setSong(newSong)
       }
     }
