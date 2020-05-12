@@ -8,14 +8,14 @@ import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
 
-function MediaCard({song, album, artist, imgPre, onClick}) {
+function MediaCard({song, album, artist, albumCover, onClick}) {
   return (
     <div className={styles['queue_card']}>
       <div className={styles['queue_content']}>
         <p className={styles.song}>{song}</p>
         <p>{artist} - {album}</p>
       </div>
-      <div className={styles['art_cover']} style={{ backgroundImage: `url(${imgPre})` }} />
+      <div className={styles['art_cover']} style={{ backgroundImage: `url(${albumCover})` }} />
       <button onClick={() => onClick()}><MdCancel /></button>
     </div>
   )

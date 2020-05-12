@@ -83,6 +83,7 @@ export function Store ({ children }) {
 
   function nextSong() {
     if (songQueue.length >= 1) {
+      console.log(songQueue)
       setSong(songQueue[0])
       songQueue.shift()
     } else {

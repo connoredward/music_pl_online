@@ -21,7 +21,7 @@ export function SearchMedia(props) {
       <div className={styles['credentials_wrapper']}>
         <p>{song} - <span>{artist}</span></p>
       </div>
-      <QueueNotification song={song} artist={artist} imgPre={albumCover} album={album} />
+      <QueueNotification song={song} artist={artist} albumCover={albumCover} album={album} />
     </div>
   )
 }

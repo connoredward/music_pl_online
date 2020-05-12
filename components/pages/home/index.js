@@ -42,7 +42,7 @@ export function HomePage({changeRoute}) {
             key={index}
             album={name} 
             artist={owner.display_name} 
-            imgPre={images[1].url} id={id} 
+            albumCover={images[1].url} id={id} 
             onClick={() => changeRoute({listen: name.split('_')[2]})}
           />
         )}

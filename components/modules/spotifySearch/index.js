@@ -18,7 +18,7 @@ export async function searchMusic(search) {
       return {
         artist: item.artists[0].name, 
         album: item.album.name, 
-        imgPre: item.album.images[1].url, 
+        albumCover: item.album.images[1].url, 
         id: item.album.id
       }
     })

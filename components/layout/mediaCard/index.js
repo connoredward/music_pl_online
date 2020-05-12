@@ -22,7 +22,7 @@ export function MediaCard(props) {
         <p>{song}</p>
         <span>{artist} - <span>{album}</span></span>
       </div>
-      <QueueNotification song={song} artist={artist} imgPre={albumCover} album={album} />
+      <QueueNotification {...props} />
       <div className={styles['art_cover']} style={{ backgroundImage: `url(${albumCover})` }} />
     </div>
   )
