@@ -25,8 +25,6 @@ export function PlayerBar() {
     nextSong
   } = useContext(SongContext)
 
-  console.log(currentSong)
-
   return (
     <div className={styles['player_bar']}>
       <div className={styles['controller_button_wrapper']}>

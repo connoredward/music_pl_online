@@ -8,7 +8,6 @@ import QueueNotification from '~/components/layout/queueNotification'
 import styles from './styles.scss'
 
 export function SearchMedia(props) {
-  console.log('props', props)
   const {song, songId, artist, onClick, albumCover, album} = props
 
   const {currentSong} = useContext(SongContext)

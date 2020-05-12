@@ -23,7 +23,6 @@ export function Store ({ children }) {
   const [duration, setDuration] = useState(0)
 
   async function setSong (e) {
-    console.log('setSong', e)
     const result = await MediaSearch(e)
     setCurrentSong({media: e, searchedData: result[0]})
   }
@@ -72,7 +71,10 @@ export function Store ({ children }) {
         setCurrentSong({})
         pauseSong()
       } else {
-        setSong(songList.songs[i - 1 ])
+        const newSong = songList.type === 'album' 
+          ? {...songList.songs[i - 1], albumCover: songList.albumCover, album: songList.albumName}
+          : {...songList.songs[i - 1]}
+        setSong(newSong)
       }
     } else {
       mediaEvent.seekTo(0)
@@ -89,7 +91,10 @@ export function Store ({ children }) {
         setCurrentSong({})
         pauseSong()
       } else {
-        setSong(songList.songs[i + 1 ])
+        const newSong = songList.type === 'album' 
+          ? {...songList.songs[i + 1], albumCover: songList.albumCover, album: songList.albumName}
+          : {...songList.songs[i + 1]}
+        setSong(newSong)
       }
     }
   }
