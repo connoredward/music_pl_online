@@ -8,8 +8,6 @@ export function Store ({ children }) {
   const [currentSong, setCurrentSong] = useState({})
 
   const [songList, setSongList] = useState({songs: []})
-  const [pageSongList, setPageSongList] = useState([])
-
 
   const [searchList, setSearchList] = useState([])
   const [songQueue, setSongQueue] = useState([])
@@ -49,8 +47,8 @@ export function Store ({ children }) {
     setIsPause(true)
   }
 
-  function sortPlaylists() {
-    setSongList(pageSongList)
+  function sortPlaylists(list) {
+    setSongList(list)
   }
 
   function playSong() {
@@ -102,13 +100,8 @@ export function Store ({ children }) {
     }
   }
 
-
   function addSongList(props) {
     setSongList(props)
-  }
-
-  function addPageSongList(songs) {
-    setPageSongList(songs)
   }
 
   function addSongQueue(song) {
@@ -153,8 +146,6 @@ export function Store ({ children }) {
 
       addSongList,
       songList,
-      addPageSongList,
-      pageSongList,
 
       addSongQueue,
       songQueue,
