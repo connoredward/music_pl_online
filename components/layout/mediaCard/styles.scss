@@ -25,6 +25,12 @@
 
   .credentials_wrapper {
     width: 100%;
+    .name {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
     p, span {
       font-weight: 350;
     }

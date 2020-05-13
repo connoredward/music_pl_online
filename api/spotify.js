@@ -23,8 +23,12 @@ const songListStruc = (songs, type) => {
     return {
       song: track.name,
       songId: track.id,
-      artist: track.artists[0].name,
-      artistId: track.artists[0].id,
+      artist: track.artists.map(({name, id}) => {
+        return {
+          name,
+          id
+        }
+      }),
       album: track.album.name,
       albumCover: track.album.images[1].url,
       albumId: track.album.id
@@ -34,7 +38,7 @@ const songListStruc = (songs, type) => {
     return {
       song: name, 
       songId: id,
-      artist: artists[0].name
+      artist: artists.map(({name}) => {return {name}})
     }
   }
 }

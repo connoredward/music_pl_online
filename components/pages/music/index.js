@@ -12,7 +12,7 @@ import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
 
-export function MusicPage({slug}) {
+export function MusicPage({slug, changeRoute}) {
   const {
     setSong,
     addSongList,
@@ -39,6 +39,11 @@ export function MusicPage({slug}) {
     }
   }
 
+  function cardFunction (e) {
+    setSong(e)
+    sortPlaylists(pageSongList)
+  }
+
   if (!pageSongList) return (<div className={styles['loading_state']}>Loading...</div>)
 
   return (
@@ -63,7 +68,10 @@ export function MusicPage({slug}) {
       <div className={styles['card_grid']}>
         {pageSongList.type === 'playlist' && (
           pageSongList.songs.map((song, index) => 
-            <MediaCard key={index} {...song} onClick={e => setSong({...e, id: e.albumId}) & sortPlaylists(pageSongList)} />
+            <MediaCard key={index} {...song} 
+              onClick={e => cardFunction({...e, id: e.albumId})} 
+              changeRoute={search => changeRoute(search)}
+            />
           )
         )}
         {pageSongList.type === 'album' && (
@@ -71,7 +79,8 @@ export function MusicPage({slug}) {
             <SearchCard key={index} {...song} 
               albumCover={pageSongList.albumCover} 
               album={pageSongList.albumName}
-              onClick={e => setSong({...e, id: pageSongList.id}) & sortPlaylists(pageSongList)} 
+              onClick={e => cardFunction({...e, id: pageSongList.id})} 
+              changeRoute={search => changeRoute(search)}
             />
           )
         )}

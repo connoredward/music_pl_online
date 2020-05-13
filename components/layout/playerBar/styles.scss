@@ -50,9 +50,13 @@
           }
           .artist_name {
             color: rgba(255,255,255,.6);
-            &:hover {
-              cursor: pointer;
-              text-decoration: underline;
+            >span {
+              .name {
+                &:hover {
+                  cursor: pointer;
+                  text-decoration: underline;
+                }
+              }
             }
           }
         }

@@ -15,6 +15,13 @@ import {
 
 import styles from './styles.scss'
 
+const artistNames = (name, index, onClick) => {
+  return <span key={index} onClick={onClick}>
+    {index === 0 ? '' : '&'} 
+    <span className={styles.name}>{name}</span>
+  </span>
+}
+
 export function PlayerBar({onClick}) {
   const {
     isPause,
@@ -38,7 +45,9 @@ export function PlayerBar({onClick}) {
               />
               <div className={styles['song_information']}>
                 <p>{currentSong.media.song}</p>
-                <p className={styles['artist_name']} onClick={() => onClick({search: currentSong.media.artist})}>{currentSong.media.artist}</p>
+                <p className={styles['artist_name']}>
+                  {currentSong.media.artist.map(({name}, index) => artistNames(name, index, () => onClick({search: name})))}
+                </p>
               </div>
             </div>
           )}
