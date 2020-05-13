@@ -17,7 +17,7 @@ import styles from './styles.scss'
 
 const artistNames = (name, index, onClick) => {
   return <span key={index} onClick={onClick}>
-    {index === 0 ? '' : '&'} 
+    {index === 0 ? '' : ' & '} 
     <span className={styles.name}>{name}</span>
   </span>
 }
