@@ -21,7 +21,6 @@ export function Store ({ children }) {
   const [duration, setDuration] = useState(0)
 
   async function setSong (e) {
-    console.log('e', e)
     const result = await MediaSearch(e)
     if (result.keyNum) {
       setSong(result)
