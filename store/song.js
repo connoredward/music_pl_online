@@ -91,6 +91,7 @@ export function Store ({ children }) {
       if (i + 1 === songList.songs.length) {
         setCurrentSong({})
         pauseSong()
+        mediaEvent.seekTo(0)
       } else {
         const newSong = songList.type === 'album' 
           ? {...songList.songs[i + 1], albumCover: songList.albumCover, album: songList.albumName, id:songList.id}
