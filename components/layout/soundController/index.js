@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useState} from 'react'
 
 import {Context as SongContext} from '~/store/song'
 
@@ -8,6 +8,13 @@ import {MdVolumeUp, MdVolumeOff, MdVolumeDown, MdVolumeMute} from 'react-icons/m
 export function SoundController() {
   const {isMute, muteSong, unMuteSong, changeVolume, volume} = useContext(SongContext)
 
+  const [vol, setVol] = useState(100)
+
+  function changeInVolume(e) {
+    setVol(e)
+    changeVolume(e)
+  }
+
   return (
     <div>
       <Popover 
@@ -16,9 +23,10 @@ export function SoundController() {
         content={
           <Slider 
             vertical 
-            defaultValue={100} 
+            defaultValue={100}
+            value={vol}
             style={{ height: 100 }} 
-            onChange={e => changeVolume(e)} 
+            onChange={e => changeInVolume(e)} 
           />
         } 
         trigger="hover"
