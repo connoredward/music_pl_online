@@ -23,7 +23,6 @@ async function getRoute({route}) {
   })
 }
 
-
 export async function getPitchfork(props) {
   return await callRoute({route: '/api/getPitchforkData', item: props})
 }
@@ -81,10 +80,8 @@ export async function getPlaylist (item, token) {
 }
 
 export async function getAllPlaylist (token) {
-  console.log('token', token)
   const data = await callRoute({route: '/api/playlists', item: {}, token})
-  console.log(data)
-  return data.items.map(({id, images, name, owner, type}) =>{return {
+  return data.items.map(({id, images, name, owner, type}) => { return {
       id,
       name,
       type,
