@@ -52,8 +52,12 @@ export function Store ({ children }) {
   }
 
   function playSong() {
-    if (currentSong.media) mediaEvent.playVideo() & setIsPause(false)
-    else if (songQueue.length >= 1) nextSong()
+    if (currentSong.media) {
+      mediaEvent.playVideo() 
+      setIsPause(false)
+    } else if (songQueue.length >= 1) {
+      nextSong()
+    }
   }
   
   function setEvent(event) {
