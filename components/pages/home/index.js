@@ -5,11 +5,11 @@ import fetch from 'isomorphic-unfetch'
 import PageWrapper from '~/components/layout/pageWrapper'
 import SearchCard from '~/components/layout/searchCard'
 
+import AlbumCard from '~/components/layout/albumCard'
+
 import {Context as SongContext} from '~/store/song'
 
 import styles from './styles.scss'
-
-const playlists = [2018, 2019]
 
 export function HomePage({changeRoute}) {
   const {searchList} = useContext(SongContext)
@@ -20,33 +20,40 @@ export function HomePage({changeRoute}) {
   }, [])
 
   async function onLoad() {
-    setPlaylist(await Promise.all(playlists.map(item => 
-      new Promise(async(res, rej) => {
-        const headers = {'Content-Type': 'application/json'}
-        const response = await fetch('/api/getSongData', {
-          method: 'POST', 
-          body: JSON.stringify({item}),
-          headers
-        })
-        res(await response.json())
-      })
-    )))
+    const headers = {'Content-Type': 'application/json'}
+    const response = await fetch('/api/playlists', {
+      method: 'GET', 
+      headers
+    })
+    const data = await response.json()
+    setPlaylist(data.items.map(
+      ({id, images, name, owner, type}) => 
+        { return {
+          id,
+          name,
+          type,
+          owner: owner.display_name,
+          albumCover: images[0].url
+        }}
+    ))
   }
-  
+
   return (
     <PageWrapper className={styles['home_page']}>
+
+
       <div className={styles['playlist_wrapper']}>
         <h2 className={styles.title}>My Playlists</h2>
-        {playlist.map(({name, owner, images, id}, index) => 
-          <SearchCard 
-            key={index}
-            album={name} 
-            artist={owner.display_name} 
-            albumCover={images[1].url} id={id} 
-            onClick={() => changeRoute({listen: name.split('_')[2]})}
-          />
-        )}
+        <div className={styles['cards_wrapper']}>
+          {playlist.map((item, index) => 
+            <AlbumCard {...item} key={index} 
+              onClick={() => changeRoute({listen: item.name})}
+            />
+          )}
+        </div>
       </div>
+
+
 
       <div className={styles['search_wrapper']}>
         {searchList.map((item, index) => 

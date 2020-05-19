@@ -7,36 +7,25 @@ function getAccessToken() {
   });
   
   return new Promise ((res, rej) => {
-    spotifyApi.clientCredentialsGrant().then(
-      function(data) {
+    spotifyApi.clientCredentialsGrant()
+      .then((data) => {
         res(data.body)
-      },
-      function(err) {
+      }, (err) => {
         console.log('Something went wrong!', err);
-      }
-    );
+      })
   })
 }
 
-export default async ({body}, res) => {
-  const {item} = body
+export default async (req, res) => {
   const r = await getAccessToken()
   var spotifyApi = new SpotifyWebApi({
     accessToken: r.access_token
   })
 
-  let list
-
-  if (item == 2018) list = '4iA8zM4WEIBrd6XwnLjIbb'
-  if (item == 2019) list = '5MabRiBL4bN40zSGwicJrk'
-  if (item == 2020) list = '6oeTk4znWmGlw9ohjXOwY8'
-
-  console.log("EHRHHRHRHRHR")
-
-  spotifyApi.getPlaylist(list)
-    .then(function(data) {
+  spotifyApi.getUserPlaylists('ouf6jimny7kufvht539y17yzr')
+    .then((data) => {
       res.json(data.body)
-    }, function(err) {
+    }, (err) => {
       console.log('Something went wrong!', err);
-    });
+    })
 }

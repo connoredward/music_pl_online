@@ -1,0 +1,18 @@
+.card {
+  >img {
+    height: 250px;
+    width: 250px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  >p {
+    color: white;
+    font-size: 18px;
+    font-weight: 300;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
