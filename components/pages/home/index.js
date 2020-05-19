@@ -2,25 +2,26 @@ import {useContext, useEffect, useState} from 'react'
 
 import PageWrapper from '~/components/layout/pageWrapper'
 import SearchCard from '~/components/layout/searchCard'
-
 import AlbumCard from '~/components/layout/albumCard'
 
 import {Context as SongContext} from '~/store/song'
 
-import {getAllPlaylist} from '~/api/spotify'
+import {getAllPlaylist, getToken} from '~/api/spotify'
 
 import styles from './styles.scss'
 
 export function HomePage({changeRoute}) {
-  const {searchList, accessToken} = useContext(SongContext)
+  const {searchList, accessToken, changeAccessToken} = useContext(SongContext)
+
   const [playlist, setPlaylist] = useState([])
 
   useEffect(() => {
-    onLoad()
+    if (accessToken) onLoad()
   }, [accessToken])
 
   async function onLoad() {
-    if (accessToken) setPlaylist(await getAllPlaylist(accessToken))
+    if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
+    setPlaylist(await getAllPlaylist(accessToken))
   }
 
   return (
@@ -30,9 +31,7 @@ export function HomePage({changeRoute}) {
         <h2 className={styles.title}>My Playlists</h2>
         <div className={styles['cards_wrapper']}>
           {playlist.map((item, index) => 
-            <AlbumCard {...item} key={index} 
-              onClick={() => changeRoute({playlist: item.id})}
-            />
+            <AlbumCard {...item} key={index} onClick={() => changeRoute({playlist: item.id})}/>
           )}
         </div>
       </div>

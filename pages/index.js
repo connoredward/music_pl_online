@@ -40,11 +40,7 @@ export function Main({listen, search}) {
   }, [listen, search])
 
   async function onLoad() {
-    const token = await getToken()
-    changeAccessToken({
-      ...token,
-      createdAt: new Date()
-    })
+    changeAccessToken(await getToken())
   }
 
   function changeRoute({search, playlist, album}) {

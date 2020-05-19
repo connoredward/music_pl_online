@@ -23,7 +23,10 @@ export function Store ({ children }) {
   const [duration, setDuration] = useState(0)
 
   function changeAccessToken(token) {
-    setAccessToken(token)
+    setAccessToken({
+      ...token,
+      createdAt: new Date()
+    })
   }
 
   async function setSong (e) {

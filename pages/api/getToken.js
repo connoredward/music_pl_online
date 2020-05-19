@@ -10,6 +10,6 @@ export default async (req, res) => {
     .then((data) => {
       res.json(data.body)
     },(err) => {
-      console.log('Something went wrong!', err);
+      console.log('Something went wrong!', err)
     })
 }
