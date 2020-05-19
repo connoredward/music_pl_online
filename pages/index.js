@@ -12,7 +12,7 @@ import searchSpotify from '~/components/modules/spotifySearch'
 import {Context as SongContext} from '~/store/song'
 import {getToken} from '~/api/spotify'
 
-export function Main({listen, search}) {
+export function Main({album, playlist, search}) {
   const router = useRouter()
   const [pageUrl, setPageUrl] = useState()
 
@@ -22,7 +22,7 @@ export function Main({listen, search}) {
     onLoad()
 
     if (search) searchMusic(search)
-    if (listen) setPageUrl(listen)
+    if (playlist || album) setPageUrl({playlist, album})
 
     Router.events.on('routeChangeComplete', (url) => {
       if (url === '/') {
@@ -33,11 +33,14 @@ export function Main({listen, search}) {
         searchMusic(url.split('=')[1])
         setPageUrl('')
       }
-      if (url.search('listen') > 0) {
-        setPageUrl(url.split('=')[1])
+      if (url.search('album') > 0) {
+        setPageUrl({album: url.split('=')[1]})
+      }
+      if (url.search('playlist') > 0) {
+        setPageUrl({playlist: url.split('=')[1]})
       }
     })
-  }, [listen, search])
+  }, [playlist, album, search])
 
   async function onLoad() {
     changeAccessToken(await getToken())
