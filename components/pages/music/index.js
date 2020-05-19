@@ -6,7 +6,7 @@ import PageWrapper from '~/components/layout/pageWrapper'
 import MediaCard from '~/components/layout/mediaCard'
 import SearchCard from '~/components/layout/searchMedia'
 
-import {getPitchfork, getPlaylist, getAlbum} from '~api/spotify'
+import {getPitchfork, getPlaylist, getAlbum, getToken} from '~api/spotify'
 
 import {Context as SongContext} from '~/store/song'
 
