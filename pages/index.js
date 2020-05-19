@@ -35,10 +35,15 @@ export function Main({listen, search}) {
     })
   }, [listen, search])
 
-  function changeRoute({search, listen}) {
-    const href = search ? `/?search=${search.replace(/ /g, '_')}` : `/?listen=${listen}`
+  function changeRoute({search, playlist, album}) {
+    let href 
+    if (search) href = `/?search=${search.replace(/ /g, '_')}`
+    if (playlist) href = `/?playlist=${playlist}`
+    if (album) href = `/?album=${album}`
+    
     router.push(href, href, {shallow: true})
-    setPageUrl(listen)
+    
+    setPageUrl(playlist, album)
   }
 
   function emptyRoute() {
@@ -61,7 +66,11 @@ export function Main({listen, search}) {
 }
 
 Main.getInitialProps = async ({query}) => {
-  return {listen: query.listen, search: query.search}
+  return {
+    search: query.search,
+    playlist: query.playlist,
+    album: query.album 
+  }
 }
 
 export default Main

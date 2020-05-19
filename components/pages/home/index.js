@@ -26,15 +26,14 @@ export function HomePage({changeRoute}) {
       headers
     })
     const data = await response.json()
-    setPlaylist(data.items.map(
-      ({id, images, name, owner, type}) => 
-        { return {
-          id,
-          name,
-          type,
-          owner: owner.display_name,
-          albumCover: images[0].url
-        }}
+    setPlaylist(
+      data.items.map(({id, images, name, owner, type}) => { return {
+        id,
+        name,
+        type,
+        owner: owner.display_name,
+        albumCover: images[0].url
+      }}
     ))
   }
 
@@ -47,7 +46,7 @@ export function HomePage({changeRoute}) {
         <div className={styles['cards_wrapper']}>
           {playlist.map((item, index) => 
             <AlbumCard {...item} key={index} 
-              onClick={() => changeRoute({listen: item.name})}
+              onClick={() => changeRoute({playlist: item.id})}
             />
           )}
         </div>
