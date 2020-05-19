@@ -42,8 +42,8 @@ export function Main({listen, search}) {
     if (album) href = `/?album=${album}`
     
     router.push(href, href, {shallow: true})
-    
-    setPageUrl(playlist, album)
+
+    setPageUrl({playlist, album})
   }
 
   function emptyRoute() {

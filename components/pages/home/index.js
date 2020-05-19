@@ -59,7 +59,7 @@ export function HomePage({changeRoute}) {
           <SearchCard 
             key={index} 
             {...item} 
-            onClick={vals => changeRoute({listen: vals})} 
+            onClick={vals => changeRoute({album: vals})} 
           />
         )}
       </div>

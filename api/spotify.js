@@ -30,7 +30,7 @@ const songListStruc = (songs, type) => {
         }
       }),
       album: track.album.name,
-      albumCover: track.album.images[1].url,
+      albumCover: track.album.images[0].url,
       albumId: track.album.id
     }
   } else {
@@ -52,7 +52,7 @@ function sortData(props) {
       ? owner.display_name 
       : artists[0].name,
     albumName: name,
-    albumCover: images[1].url,
+    albumCover: images[0].url,
     songs: tracks.items.map(item => songListStruc(item, type))
   }
 }
@@ -70,7 +70,17 @@ export async function sortMusicList (item) {
   }
 }
 
+export async function getAlbum (album) {
+  return sortData(await callRoute({route: '/api/getAlbum', item: album}))
+}
+
+export async function getPlaylist (playlist) {
+  return sortData(await callRoute({route: '/api/getPlaylist', item: playlist}))
+}
+
 export default {
   sortMusicList,
-  getPitchfork
+  getPitchfork,
+  getPlaylist,
+  getAlbum
 }
