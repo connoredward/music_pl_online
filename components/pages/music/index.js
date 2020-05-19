@@ -30,7 +30,9 @@ export function MusicPage({slug, changeRoute}) {
   useEffect(() => {
     if (accessToken) onLoad()
     if (window) window.scrollTo(0,0)
+    
   }, [slug, accessToken])
+
 
   async function onLoad() {
     setPageSongList([])
