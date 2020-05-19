@@ -13,8 +13,6 @@ import {Context as SongContext} from '~/store/song'
 import styles from './styles.scss'
 
 export function MusicPage({slug, changeRoute}) {
-
-  console.log(123, slug)
   const {playlist, album} = slug
 
   const {

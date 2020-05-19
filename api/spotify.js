@@ -1,11 +1,22 @@
 import fetch from 'isomorphic-unfetch'
 
-async function callRoute({route, item}) {
+async function callRoute({route, item, token}) {
   return await new Promise(async(res, rej) => {
     const headers = {'Content-Type': 'application/json'}
     const response = await fetch(route, {
       method: 'POST', 
-      body: JSON.stringify({item}),
+      body: JSON.stringify({item, token}),
+      headers
+    })
+    res(await response.json())
+  })
+}
+
+async function getRoute({route}) {
+  return await new Promise(async(res, rej) => {
+    const headers = {'Content-Type': 'application/json'}
+    const response = await fetch(route, {
+      method: 'GET',
       headers
     })
     res(await response.json())
@@ -15,6 +26,10 @@ async function callRoute({route, item}) {
 
 export async function getPitchfork(props) {
   return await callRoute({route: '/api/getPitchforkData', item: props})
+}
+
+export async function getToken() {
+  return await getRoute({route: '/api/getToken'})
 }
 
 const songListStruc = (songs, type) => {
@@ -57,19 +72,6 @@ function sortData(props) {
   }
 }
 
-export async function sortMusicList (item) {
-  const route = item.length === 4 ? '/api/getSongData' : '/api/getAlbumData'
-  const body = await callRoute({route, item})
-
-  if (body.type) {
-    return sortData(body)
-  } else {
-    const x = body.href.split('/')
-    const id = x[x.findIndex(type => type === 'albums') + 1]
-    return sortData(await callRoute({route: '/api/getAlbum', item: id}))
-  }
-}
-
 export async function getAlbum (album) {
   return sortData(await callRoute({route: '/api/getAlbum', item: album}))
 }
@@ -78,9 +80,24 @@ export async function getPlaylist (playlist) {
   return sortData(await callRoute({route: '/api/getPlaylist', item: playlist}))
 }
 
+export async function getAllPlaylist (token) {
+  console.log('token', token)
+  const data = await callRoute({route: '/api/playlists', item: {}, token})
+  console.log(data)
+  return data.items.map(({id, images, name, owner, type}) =>{return {
+      id,
+      name,
+      type,
+      owner: owner.display_name,
+      albumCover: images[0].url
+    }}
+  )
+}
+
 export default {
-  sortMusicList,
   getPitchfork,
   getPlaylist,
-  getAlbum
+  getAlbum,
+  getToken,
+  getAllPlaylist
 }

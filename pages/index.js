@@ -8,15 +8,19 @@ import HomePage from '~/components/pages/home'
 import MusicPage from '~/components/pages/music'
 
 import searchSpotify from '~/components/modules/spotifySearch'
+
 import {Context as SongContext} from '~/store/song'
+import {getToken} from '~/api/spotify'
 
 export function Main({listen, search}) {
   const router = useRouter()
   const [pageUrl, setPageUrl] = useState()
 
-  const {addSearchList} = useContext(SongContext)
+  const {addSearchList, changeAccessToken} = useContext(SongContext)
 
   useEffect(() => {
+    onLoad()
+
     if (search) searchMusic(search)
     if (listen) setPageUrl(listen)
 
@@ -34,6 +38,14 @@ export function Main({listen, search}) {
       }
     })
   }, [listen, search])
+
+  async function onLoad() {
+    const token = await getToken()
+    changeAccessToken({
+      ...token,
+      createdAt: new Date()
+    })
+  }
 
   function changeRoute({search, playlist, album}) {
     let href 

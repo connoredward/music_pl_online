@@ -1,7 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
 
-import fetch from 'isomorphic-unfetch'
-
 import PageWrapper from '~/components/layout/pageWrapper'
 import SearchCard from '~/components/layout/searchCard'
 
@@ -9,37 +7,24 @@ import AlbumCard from '~/components/layout/albumCard'
 
 import {Context as SongContext} from '~/store/song'
 
+import {getAllPlaylist} from '~/api/spotify'
+
 import styles from './styles.scss'
 
 export function HomePage({changeRoute}) {
-  const {searchList} = useContext(SongContext)
+  const {searchList, accessToken} = useContext(SongContext)
   const [playlist, setPlaylist] = useState([])
 
   useEffect(() => {
     onLoad()
-  }, [])
+  }, [accessToken])
 
   async function onLoad() {
-    const headers = {'Content-Type': 'application/json'}
-    const response = await fetch('/api/playlists', {
-      method: 'GET', 
-      headers
-    })
-    const data = await response.json()
-    setPlaylist(
-      data.items.map(({id, images, name, owner, type}) => { return {
-        id,
-        name,
-        type,
-        owner: owner.display_name,
-        albumCover: images[0].url
-      }}
-    ))
+    if (accessToken) setPlaylist(await getAllPlaylist(accessToken))
   }
 
   return (
     <PageWrapper className={styles['home_page']}>
-
 
       <div className={styles['playlist_wrapper']}>
         <h2 className={styles.title}>My Playlists</h2>

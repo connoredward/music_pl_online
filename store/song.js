@@ -5,6 +5,8 @@ import MediaSearch from '~/components/modules/mediaSearch'
 export const Context = React.createContext()
 
 export function Store ({ children }) {
+  const [accessToken, setAccessToken] = useState()
+
   const [currentSong, setCurrentSong] = useState({})
 
   const [songList, setSongList] = useState({songs: []})
@@ -19,6 +21,10 @@ export function Store ({ children }) {
   const [mediaEvent, setMediaEvent] = useState()
 
   const [duration, setDuration] = useState(0)
+
+  function changeAccessToken(token) {
+    setAccessToken(token)
+  }
 
   async function setSong (e) {
     const result = await MediaSearch(e)
@@ -127,6 +133,9 @@ export function Store ({ children }) {
 
   return (
     <Context.Provider value={{ 
+      changeAccessToken,
+      accessToken,
+
       currentSong,
       setSong,
       mediaEvent,
