@@ -19,22 +19,25 @@ export function MusicPage({slug, changeRoute}) {
     setSong,
     addSongList,
     songList,
-    sortPlaylists
+    sortPlaylists,
+    accessToken,
+    changeAccessToken
   } = useContext(SongContext)
 
   const [pageSongList, setPageSongList] = useState([])
   const [pitchforkReview, setPitchforkReview] = useState({})
 
   useEffect(() => {
-    onLoad()
+    if (accessToken) onLoad()
     if (window) window.scrollTo(0,0)
-  }, [slug])
+  }, [slug, accessToken])
 
   async function onLoad() {
     setPageSongList([])
+    if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
     let list 
-    if (playlist) list = await getPlaylist(playlist)
-    if (album) list = await getAlbum(album)
+    if (playlist) list = await getPlaylist(playlist, accessToken)
+    if (album) list = await getAlbum(album, accessToken)
     setPageSongList(list)
     if (songList.songs.length === 0) addSongList(list)
     if (list?.type === 'album') setPitchforkReview(await getPitchfork({artist: list.albumArtist, album: list.albumName}))

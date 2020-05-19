@@ -72,12 +72,12 @@ function sortData(props) {
   }
 }
 
-export async function getAlbum (album) {
-  return sortData(await callRoute({route: '/api/getAlbum', item: album}))
+export async function getAlbum (item, token) {
+  return sortData(await callRoute({route: '/api/getAlbum', item, token}))
 }
 
-export async function getPlaylist (playlist) {
-  return sortData(await callRoute({route: '/api/getPlaylist', item: playlist}))
+export async function getPlaylist (item, token) {
+  return sortData(await callRoute({route: '/api/getPlaylist', item, token}))
 }
 
 export async function getAllPlaylist (token) {
