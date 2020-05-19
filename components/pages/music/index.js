@@ -6,7 +6,7 @@ import PageWrapper from '~/components/layout/pageWrapper'
 import MediaCard from '~/components/layout/mediaCard'
 import SearchCard from '~/components/layout/searchMedia'
 
-import {sortMusicList, getPitchfork, getPlaylist, getAlbum} from '~api/spotify'
+import {getPitchfork, getPlaylist, getAlbum} from '~api/spotify'
 
 import {Context as SongContext} from '~/store/song'
 
@@ -34,24 +34,12 @@ export function MusicPage({slug, changeRoute}) {
 
   async function onLoad() {
     setPageSongList([])
-
-    if (playlist) {
-      const e = await getPlaylist(playlist)
-      setPageSongList(e)
-    }
-
-    if (album) {
-      const e = await getAlbum(album)
-      setPageSongList(e)
-    }
-
-    // const e = await sortMusicList(slug)
-    // setPageSongList(e)
-    // if (songList.songs.length === 0) addSongList(e)
-
-    // if (e.type === 'album') {
-    //   setPitchforkReview(await getPitchfork({artist: e.albumArtist, album: e.albumName}))
-    // }
+    let list 
+    if (playlist) list = await getPlaylist(playlist)
+    if (album) list = await getAlbum(album)
+    setPageSongList(list)
+    if (songList.songs.length === 0) addSongList(list)
+    if (list?.type === 'album') setPitchforkReview(await getPitchfork({artist: list.albumArtist, album: list.albumName}))
   }
 
   function cardFunction (e) {
