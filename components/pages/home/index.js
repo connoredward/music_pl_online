@@ -6,12 +6,18 @@ import AlbumCard from '~/components/layout/albumCard'
 
 import {Context as SongContext} from '~/store/song'
 
-import {getAllPlaylist, getToken} from '~/api/spotify'
+import {getAllPlaylist, getToken, getPlaylist} from '~/api/spotify'
 
 import styles from './styles.scss'
 
 export function HomePage({changeRoute}) {
-  const {searchList, accessToken, changeAccessToken} = useContext(SongContext)
+  const {
+    searchList, 
+    accessToken, 
+    changeAccessToken, 
+    setSong, 
+    addSongList
+  } = useContext(SongContext)
 
   const [playlist, setPlaylist] = useState([])
 
@@ -23,6 +29,12 @@ export function HomePage({changeRoute}) {
     if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
     setPlaylist(await getAllPlaylist(accessToken))
   }
+  
+  async function playThis(id) {
+    const e = await getPlaylist(id, accessToken)
+    setSong(e.songs[0])
+    addSongList(e)
+  }
 
   return (
     <PageWrapper className={styles['home_page']}>
@@ -31,7 +43,10 @@ export function HomePage({changeRoute}) {
         <h2 className={styles.title}>My Playlists</h2>
         <div className={styles['cards_wrapper']}>
           {playlist.map((item, index) => 
-            <AlbumCard {...item} key={index} onClick={() => changeRoute({playlist: item.id})}/>
+            <AlbumCard {...item} key={index} 
+              onClick={() => changeRoute({playlist: item.id})}
+              playAlbum={id => playThis(id)}
+            />
           )}
         </div>
       </div>

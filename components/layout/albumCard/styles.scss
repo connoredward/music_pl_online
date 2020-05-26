@@ -1,9 +1,35 @@
 .card {
-  >img {
+  .album_cover {
     height: 200px;
     width: 200px;
+    position: relative;
+    >svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 60px;
+      color: white;
+      display: none;
+      border: 2px solid white;
+      border-radius: 100px;
+    }
     &:hover {
-      cursor: pointer;
+      >svg {
+        display: block;
+        z-index: 99;
+        cursor: pointer;
+      }
+      >img {
+        opacity: 0.6;
+      }
+    }
+    >img {
+      height: 100%;
+      width: 100%;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
   >p {
