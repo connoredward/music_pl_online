@@ -31,6 +31,7 @@ export function HomePage({changeRoute}) {
   }
   
   async function playThis(id) {
+    if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
     const e = await getPlaylist(id, accessToken)
     setSong(e.songs[0])
     addSongList(e)
@@ -55,9 +56,7 @@ export function HomePage({changeRoute}) {
 
       <div className={styles['search_wrapper']}>
         {searchList.map((item, index) => 
-          <SearchCard 
-            key={index} 
-            {...item} 
+          <SearchCard key={index} {...item} 
             onClick={vals => changeRoute({album: vals})} 
           />
         )}
