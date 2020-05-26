@@ -4,8 +4,11 @@ export default async ({body}, res) => {
   const {item} = body
   const {artist, album} = item
   var search = new p4k.Search(`${artist} - ${album}`);
-  search.promise.then(function(results){
-    var reviews = results.map(function(r){ return r.attributes; })
-    res.send(reviews)
-  })
+  search.promise
+    .then((results) =>{
+      var reviews = results.map(r =>{ return r.attributes })
+      res.send(reviews)
+    }, (err) => {
+      console.log(err)
+    })
 }

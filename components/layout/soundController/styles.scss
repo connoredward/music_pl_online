@@ -1,0 +1,14 @@
+.sound_slider {
+  &:hover {
+    :global {
+      .ant-slider-handle {
+        display: block !important;
+      }
+    }
+  }
+  :global {
+    .ant-slider-handle {
+      display: none;
+    }
+  }
+}

@@ -41,7 +41,7 @@ export function MusicPage({slug, changeRoute}) {
     if (playlist) list = await getPlaylist(playlist, accessToken)
     if (album) list = await getAlbum(album, accessToken)
     setPageSongList(list)
-    if (songList.songs.length === 0) addSongList(list)
+    if (songList?.songs.length === 0) addSongList(list)
     if (list?.type === 'album') setPitchforkReview(await getPitchfork({artist: list.albumArtist, album: list.albumName}))
   }
 
