@@ -6,6 +6,8 @@ import {MdSearch} from 'react-icons/md'
 import searchSpotify from '~/components/modules/spotifySearch'
 import {Context as SongContext} from '~/store/song'
 
+import {searchSpotifyArtist, getToken} from '~/api/spotify'
+
 import styles from './styles.scss'
 
 function SearchFormRaw ({ form, searchMusic }) {
@@ -33,11 +35,12 @@ function SearchFormRaw ({ form, searchMusic }) {
 const SearchForm = Form.create({ name: 'search-spotify' })(SearchFormRaw)
 
 export function SearchFormWrapper({setPageUrl, emptyRoute}) {
-  const {addSearchList} = useContext(SongContext)
+  const {addSearchList, accessToken, changeAccessToken} = useContext(SongContext)
 
   async function searchMusic(search) {
     setPageUrl({search})
-    addSearchList(await searchSpotify(search))
+    if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
+    addSearchList(await searchSpotifyArtist(accessToken, search))
   }
 
   return (

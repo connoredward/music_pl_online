@@ -53,7 +53,7 @@ export function HomePage({changeRoute}) {
       </div>
 
 
-
+      
       <div className={styles['search_wrapper']}>
         {searchList.map((item, index) => 
           <SearchCard key={index} {...item} 

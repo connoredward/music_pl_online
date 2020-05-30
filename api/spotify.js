@@ -91,10 +91,31 @@ export async function getAllPlaylist (token) {
   )
 }
 
+function getUnique(array, comp) {
+  return array.map(i => i[comp])
+    .map((e, i, final) => final.indexOf(e) === i && i)
+    .filter(i => array[i]).map(i => array[i])
+}
+
+export async function searchSpotifyArtist (token, artist) {
+  const data = await callRoute({route: '/api/searchSpotify', item: artist, token})
+  console.log('data', data)
+  const mappedBody = data.tracks.items.map(item => { 
+    return {
+      artist: item.artists[0].name,
+      album: item.album.name,
+      albumCover: item.album.images[0].url,
+      id: item.album.id
+    }
+  })
+  return getUnique(mappedBody, 'id')
+}
+
 export default {
   getPitchfork,
   getPlaylist,
   getAlbum,
   getToken,
-  getAllPlaylist
+  getAllPlaylist,
+  searchSpotifyArtist
 }
