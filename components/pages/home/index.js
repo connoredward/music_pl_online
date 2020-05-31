@@ -6,7 +6,8 @@ import AlbumCard from '~/components/layout/albumCard'
 
 import {Context as SongContext} from '~/store/song'
 
-import {getAllPlaylist, getToken, getPlaylist} from '~/api/spotify'
+import {getAllPlaylist, getToken, getPlaylist, sortTrack} from '~/api/spotify'
+import {getWeekCharts} from '~/api/billboard'
 
 import styles from './styles.scss'
 
@@ -20,6 +21,7 @@ export function HomePage({changeRoute}) {
   } = useContext(SongContext)
 
   const [playlist, setPlaylist] = useState([])
+  const [billboardSongs, setBillboardSongs] = useState([])
 
   useEffect(() => {
     if (accessToken) onLoad()
@@ -28,7 +30,11 @@ export function HomePage({changeRoute}) {
   async function onLoad() {
     if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
     setPlaylist(await getAllPlaylist(accessToken))
+
+    const e = await getWeekCharts(accessToken)
+    setBillboardSongs(sortTrack(e))
   }
+  console.log(billboardSongs)
   
   async function playThis(id) {
     if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
@@ -63,6 +69,15 @@ export function HomePage({changeRoute}) {
       </div>
 
       {/* <h2>Recently added</h2> */}
+      <h2 className={styles.title}>Top songs</h2>
+      <div className={styles['cards_wrapper']}>
+        {billboardSongs.map((item, index) => 
+          <AlbumCard {...item} key={index} 
+            onClick={() => setSong(item)}
+            playAlbum={id => console.log(id)}
+          />
+        )}
+      </div>
 
       <div className={styles.content}>
         <p>made using the pitchfork, youtube and spotify api.</p>

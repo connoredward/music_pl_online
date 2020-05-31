@@ -79,6 +79,20 @@ export async function getPlaylist (item, token) {
   return sortData(await callRoute({route: '/api/getPlaylist', item, token}))
 }
 
+export function sortTrack(item) {
+  return item.map(({tracks}) => {
+    const {id, name, type, artists, album} = tracks.items[0]
+    console.log(tracks.items[0], id)
+    return {
+      id,
+      type,
+      song:name,
+      artist: artists.map(({name}) => {return {name}}),
+      albumCover: album.images[0].url
+    }
+  })
+}
+
 export async function getAllPlaylist (token) {
   const data = await callRoute({route: '/api/playlists', item: {}, token})
   return data.items.map(({id, images, name, owner, type}) => { return {
@@ -117,5 +131,6 @@ export default {
   getAlbum,
   getToken,
   getAllPlaylist,
-  searchSpotifyArtist
+  searchSpotifyArtist,
+  sortTrack
 }
