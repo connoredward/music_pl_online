@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from 'react'
 import PageWrapper from '~/components/layout/pageWrapper'
 import SearchCard from '~/components/layout/searchCard'
 import AlbumCard from '~/components/layout/albumCard'
+import MediaCard from '~/components/layout/mediaCard'
 
 import {Context as SongContext} from '~/store/song'
 
@@ -70,11 +71,10 @@ export function HomePage({changeRoute}) {
 
       {/* <h2>Recently added</h2> */}
       <h2 className={styles.title}>Top songs</h2>
-      <div className={styles['cards_wrapper']}>
+      <div className={styles['search_wrapper']}>
         {billboardSongs.map((item, index) => 
-          <AlbumCard {...item} key={index} 
+          <MediaCard {...item} key={index}
             onClick={() => setSong(item)}
-            playAlbum={id => console.log(id)}
           />
         )}
       </div>

@@ -85,9 +85,10 @@ export function sortTrack(item) {
     return {
       id,
       type,
-      song:name,
+      song: name,
       artist: artists.map(({name}) => {return {name}}),
-      albumCover: album.images[0].url
+      albumCover: album.images[0].url,
+      album: album.name
     }
   })
 }
