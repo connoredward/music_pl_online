@@ -75,6 +75,7 @@ export function HomePage({changeRoute}) {
         {billboardSongs.map((item, index) => 
           <MediaCard {...item} key={index}
             onClick={() => setSong(item)}
+            changeRoute={search => changeRoute(search)}
           />
         )}
       </div>
