@@ -2,6 +2,7 @@ var SpotifyWebApi = require('spotify-web-api-node')
 
 export default async ({body}, res) => {
   const {item, token} = body
+  console.log(123, token.access_token)
 
   var spotifyApi = new SpotifyWebApi({
     accessToken: token.access_token

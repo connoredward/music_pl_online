@@ -111,7 +111,6 @@ function getUnique(array, comp) {
 }
 
 export async function searchSpotifyArtist (token, search) {
-  console.log('search', search)
   const data = await callRoute({route: '/api/searchSpotify', item: search, token})
   const mappedBody = data.tracks.items.map(item => { 
     return {
