@@ -6,7 +6,8 @@ export default async ({body}, res) => {
   var spotifyApi = new SpotifyWebApi({
     accessToken: token.access_token
   })
-  spotifyApi.searchTracks(`artist:${item.search}`)
+
+  spotifyApi.searchTracks(`artist:${item}`)
     .then((data) => {
       res.json(data.body)
     }, (err) => {

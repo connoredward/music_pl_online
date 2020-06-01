@@ -2,8 +2,6 @@ var { getChart } =  require('billboard-top-100')
 var SpotifyWebApi = require('spotify-web-api-node')
 
 async function getSongData ({track, artist, token}) {
-  console.log(track, artist, token)
-  console.log()
   return await new Promise((res, rej) => {
     var spotifyApi = new SpotifyWebApi({
       accessToken: token.access_token

@@ -34,8 +34,7 @@ export function HomePage({changeRoute}) {
     const e = await getWeekCharts(accessToken)
     setBillboardSongs(sortTrack(e))
   }
-  console.log(billboardSongs)
-  
+
   async function playThis(id) {
     if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
     const e = await getPlaylist(id, accessToken)

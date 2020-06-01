@@ -131,6 +131,7 @@ export function Store ({ children }) {
   }
 
   function addSearchList(songs) {
+    console.log('songs', songs)
     setSearchList(songs)
   }
 

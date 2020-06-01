@@ -82,7 +82,6 @@ export async function getPlaylist (item, token) {
 export function sortTrack(item) {
   return item.map(({tracks}) => {
     const {id, name, type, artists, album} = tracks.items[0]
-    console.log(tracks.items[0], id)
     return {
       id,
       type,
@@ -111,9 +110,9 @@ function getUnique(array, comp) {
     .filter(i => array[i]).map(i => array[i])
 }
 
-export async function searchSpotifyArtist (token, artist) {
-  const data = await callRoute({route: '/api/searchSpotify', item: artist, token})
-  console.log('data', data)
+export async function searchSpotifyArtist (token, search) {
+  console.log('search', search)
+  const data = await callRoute({route: '/api/searchSpotify', item: search, token})
   const mappedBody = data.tracks.items.map(item => { 
     return {
       artist: item.artists[0].name,
