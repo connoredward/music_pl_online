@@ -17,7 +17,6 @@ export function MediaSearch (props) {
   const {artist, song, keyNum = 0} = props
   return new Promise ((res, rej) => {
     search(`${artist[0].name} - ${song} song`, opts(keyNum), (err, results) => {
-      console.log('searching youtube...')
       if(err) {
         if (keyNum < keys.length - 1 ) {
           res({...props, keyNum: keyNum + 1})

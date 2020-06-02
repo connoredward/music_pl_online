@@ -40,7 +40,6 @@ export function SearchFormWrapper({setPageUrl, emptyRoute}) {
   async function searchMusic(search) {
     setPageUrl({search})
     if (new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
-    console.log('search form', accessToken)
     addSearchList(await searchSpotifyArtist(accessToken, search))
   }
 

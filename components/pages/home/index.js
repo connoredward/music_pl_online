@@ -38,7 +38,6 @@ export function HomePage({changeRoute}) {
 
   async function playThis(id) {
     if (!accessToken || new Date() - accessToken?.createdAt >= 3600000) changeAccessToken(await getToken())
-    console.log(123, accessToken)
     const e = await getPlaylist(id, accessToken)
     setSong(e.songs[0])
     addSongList(e)
