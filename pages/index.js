@@ -7,16 +7,16 @@ import MediaWrapper from '~/components/modules/mediaWrapper'
 import HomePage from '~/components/pages/home'
 import MusicPage from '~/components/pages/music'
 
-import searchSpotify from '~/components/modules/spotifySearch'
+// import searchSpotify from '~/components/modules/spotifySearch'
 
 import {Context as SongContext} from '~/store/song'
-import {getToken} from '~/api/spotify'
+import {getToken, searchSpotifyArtist} from '~/api/spotify'
 
 export function Main({album, playlist, search}) {
   const router = useRouter()
   const [pageUrl, setPageUrl] = useState()
 
-  const {addSearchList, changeAccessToken} = useContext(SongContext)
+  const {addSearchList, changeAccessToken, accessToken} = useContext(SongContext)
 
   useEffect(() => {
     onLoad()
@@ -64,7 +64,16 @@ export function Main({album, playlist, search}) {
   }
 
   async function searchMusic(search) {
-    addSearchList(await searchSpotify(search.replace(/_/g, ' ')))
+    let token
+    if (!accessToken || new Date() - accessToken?.createdAt >= 3600000) {
+      const t = await getToken()
+      changeAccessToken(t) 
+      token = t
+    } else {
+      token = accessToken
+    }
+    console.log(123, token)
+    addSearchList(await searchSpotifyArtist(token, search.replace(/_/g, ' ')))
   }
 
   return (
