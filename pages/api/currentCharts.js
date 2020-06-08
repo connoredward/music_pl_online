@@ -6,7 +6,7 @@ async function getSongData ({track, artist, token}) {
     var spotifyApi = new SpotifyWebApi({
       accessToken: token.access_token
     })
-    spotifyApi.searchTracks(`track:${track.replace(/'/g, '')} artist:${artist.replace(/'/g, '').split('Featuring')[0]}`) 
+    spotifyApi.searchTracks(`track:${track.replace(/'/g, '')} artist:${artist.replace(/'/g, '').split('Featuring')[0].split('&')[0]}`) 
       .then((data) => {
         res(data.body)
       },(err) => {
